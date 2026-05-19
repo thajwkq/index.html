@@ -143,11 +143,20 @@
         .settings-item:hover{border-color:var(--primary)}
         .settings-item .si-left{display:flex;align-items:center;gap:12px}
         .settings-item i{font-size:20px;color:var(--primary2)}
-        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
+        .modal-overlay{
+            position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;
+            display:flex;align-items:center;justify-content:center;padding:20px;
+        }
         .modal{
             background:var(--bg);border:1px solid var(--glass-border);border-radius:var(--radius);
-            padding:24px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;box-shadow:var(--shadow);
+            padding:24px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;
+            box-shadow:var(--shadow);position:relative;
         }
+        .modal .close-modal{
+            position:absolute;top:12px;left:12px;font-size:22px;
+            color:var(--text3);cursor:pointer;transition:0.3s;z-index:10;
+        }
+        .modal .close-modal:hover{color:var(--danger);}
         .modal h3{text-align:center;margin-bottom:16px}
         .telegram-btn{
             background:#2AABEE;color:#fff;padding:14px;border-radius:var(--radius-sm);
@@ -231,7 +240,7 @@
             <div class="settings-item" onclick="openRatingModal()"><div class="si-left"><i class="fa-solid fa-star"></i> تقييم التطبيق</div><i class="fa-solid fa-chevron-left"></i></div>
             <div class="settings-item" onclick="openExperienceGallery()"><div class="si-left"><i class="fa-solid fa-images"></i> تجارب المستخدمين</div><i class="fa-solid fa-chevron-left"></i></div>
             <div class="settings-item" onclick="window.open('https://t.me/I_17g','_blank')"><div class="si-left"><i class="fa-brands fa-telegram"></i> قناة الإثباتات</div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-            <div class="settings-item" onclick="window.open('https://www.instagram.com/th2f6','_blank')"><div class="si-left"><i class="fa-brands fa-instagram"></i> تواصل عبر انستغرام</div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="settings-item" onclick="window.open('https://www.instagram.com/th2f6','_blank')"><div class="si-left"><i class="fa-brands fa-instagram"></i> تواصل انستغرام</div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
         </div>
         <div class="bottom-nav">
             <div class="nav-item active" data-page="pageHome" onclick="switchPage('pageHome',this)"><i class="fa-solid fa-house"></i> الرئيسية</div>
@@ -408,7 +417,7 @@
             const offer=allOffers.find(o=>o.id===offerId);
             if(!offer)return;
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('orderModalOverlay')">
+            <div class="modal-overlay" id="orderModalOverlay" onclick="if(event.target===this)closeModal('orderModalOverlay')">
                 <div class="modal">
                     <i class="fa-solid fa-xmark close-modal" onclick="closeModal('orderModalOverlay')"></i>
                     <h3>طلب رشق</h3>
@@ -417,7 +426,7 @@
                     <div class="input-group"><label>رابط الحساب</label><input id="orderLink"></div>
                     <div class="input-group"><label>ملاحظات</label><textarea id="orderNotes"></textarea></div>
                     <p style="margin:10px 0;font-size:13px">طرق الدفع: زين كاش 07853607192 | ماستر 4948183217 | آسيا 07780239452</p>
-                    <a href="https://t.me/I_17g" target="_blank" class="telegram-btn"><i class="fa-brands fa-telegram"></i> إرسال إثبات الدفع عبر تيليجرام</a>
+                    <a href="https://t.me/I_17g" target="_blank" class="telegram-btn"><i class="fa-brands fa-telegram"></i> إرسال إثبات الدفع</a>
                     <button class="btn" onclick="submitOrder('${offer.id}')">تأكيد الطلب</button>
                 </div>
             </div>`;
@@ -433,13 +442,13 @@
         function renderMyOrders(){
             const list=document.getElementById('myOrdersList');
             const my=allOrders.filter(o=>o.userId===currentUser?.uid).reverse();
-            list.innerHTML=my.length?my.map(o=>`<div class="offer-card" style="margin-bottom:8px"><p><strong>${o.offerName}</strong></p><p style="font-size:13px">${o.link}</p><p style="color:${o.status==='pending'?'var(--gold)':o.status==='completed'?'var(--primary)':'var(--danger)'}">الحالة: ${o.status}</p></div>`).join(''):'<p style="text-align:center;color:var(--text2)">لا طلبات حالياً</p>';
+            list.innerHTML=my.length?my.map(o=>`<div class="offer-card" style="margin-bottom:8px"><p><strong>${o.offerName}</strong></p><p style="font-size:13px">${o.link}</p><p style="color:${o.status==='pending'?'var(--gold)':o.status==='completed'?'var(--primary)':'var(--danger)'}">الحالة: ${o.status}</p></div>`).join(''):'<p style="text-align:center;color:var(--text2)">لا طلبات</p>';
         }
 
         function openChat(){
             if(!currentUser) return;
             document.getElementById('modalContainer').innerHTML = `
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('chatModalOverlay')">
+            <div class="modal-overlay" id="chatModalOverlay" onclick="if(event.target===this)closeModal('chatModalOverlay')">
                 <div class="modal">
                     <i class="fa-solid fa-xmark close-modal" onclick="closeChatModal()"></i>
                     <h3>الدعم الفوري</h3>
@@ -448,13 +457,21 @@
                 </div>
             </div>`;
             if(unsubMessages) unsubMessages();
-            unsubMessages = db.collection('messages').where('userId','==',currentUser.uid).orderBy('time','asc').onSnapshot(s=>{
+            unsubMessages = db.collection('messages').where('userId','==',currentUser.uid).orderBy('time','asc')
+            .onSnapshot(s=>{
                 const msgs=[]; s.forEach(d=>msgs.push(d.data()));
                 const div = document.getElementById('chatMessages');
                 if(div) div.innerHTML = msgs.map(m=>`<div style="margin:4px 0;padding:6px 10px;border-radius:12px;background:${m.from==='user'?'var(--primary)':'var(--surface2)'};color:#fff;max-width:80%;${m.from==='user'?'margin-right:auto':'margin-left:auto'}">${m.text}<br><small>${new Date(m.time).toLocaleTimeString()}</small></div>`).join('');
+            }, error => {
+                console.error(error);
+                const div = document.getElementById('chatMessages');
+                if(div) div.innerHTML = `<p style="color:var(--danger);text-align:center">خطأ في تحميل المحادثة. تحتاج إلى إنشاء فهرس مركب (userId + time). <a href="https://console.firebase.google.com/project/surtur-5d667/firestore/indexes" target="_blank" style="color:var(--primary)">إنشاء الفهرس</a></p>`;
             });
         }
-        function closeChatModal(){ if(unsubMessages){unsubMessages();unsubMessages=null;} closeModal('chatModalOverlay'); }
+        function closeChatModal(){
+            if(unsubMessages){unsubMessages();unsubMessages=null;}
+            closeModal('chatModalOverlay');
+        }
         async function sendChatMessage(){
             const t = document.getElementById('chatInput').value.trim();
             if(!t) return;
@@ -470,7 +487,7 @@
         }
         function openNotifications(){
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('notifModalOverlay')">
+            <div class="modal-overlay" id="notifModalOverlay" onclick="if(event.target===this)closeModal('notifModalOverlay')">
                 <div class="modal">
                     <i class="fa-solid fa-xmark close-modal" onclick="closeModal('notifModalOverlay')"></i>
                     <h3>الإشعارات</h3>
@@ -493,7 +510,7 @@
 
         function openRatingModal(){
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('ratingModalOverlay')">
+            <div class="modal-overlay" id="ratingModalOverlay" onclick="if(event.target===this)closeModal('ratingModalOverlay')">
                 <div class="modal" style="text-align:center">
                     <i class="fa-solid fa-xmark close-modal" onclick="closeModal('ratingModalOverlay')"></i>
                     <h3>تقييمك</h3>
@@ -514,7 +531,7 @@
 
         function openExperienceGallery(){
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('expModalOverlay')">
+            <div class="modal-overlay" id="expModalOverlay" onclick="if(event.target===this)closeModal('expModalOverlay')">
                 <div class="modal">
                     <i class="fa-solid fa-xmark close-modal" onclick="closeModal('expModalOverlay')"></i>
                     <h3>تجارب</h3>
@@ -543,16 +560,23 @@
 
         function openPaymentInfo(){
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('payModalOverlay')">
+            <div class="modal-overlay" id="payModalOverlay" onclick="if(event.target===this)closeModal('payModalOverlay')">
                 <div class="modal">
                     <i class="fa-solid fa-xmark close-modal" onclick="closeModal('payModalOverlay')"></i>
                     <h3>طرق الدفع</h3>
-                    <p>زين كاش: 07853607192</p>
-                    <p>ماستركارد: 4948183217</p>
-                    <p>آسيا أسيل: 07780239452</p>
-                    <p style="margin-top:10px"><a href="https://t.me/I_17g" target="_blank" class="telegram-btn"><i class="fa-brands fa-telegram"></i> إرسال إثبات</a></p>
+                    <p>زين كاش: 07853607192 <button class="btn btn-sm" onclick="copyText('07853607192',this)">نسخ</button></p>
+                    <p>ماستركارد: 4948183217 <button class="btn btn-sm" onclick="copyText('4948183217',this)">نسخ</button></p>
+                    <p>آسيا أسيل: 07780239452 <button class="btn btn-sm" onclick="copyText('07780239452',this)">نسخ</button></p>
+                    <a href="https://t.me/I_17g" target="_blank" class="telegram-btn"><i class="fa-brands fa-telegram"></i> إرسال إثبات</a>
                 </div>
             </div>`;
+        }
+
+        function copyText(text, btn){
+            navigator.clipboard.writeText(text).then(()=>{
+                btn.textContent='تم النسخ';
+                setTimeout(()=>btn.textContent='نسخ',1500);
+            });
         }
 
         function switchPage(id,el){
@@ -562,8 +586,14 @@
             if(el) el.classList.add('active');
             if(id==='pageOrders') renderMyOrders();
         }
-        function closeModal(id){document.getElementById(id)?.remove();}
-        function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2500);}
+        function closeModal(id){
+            const el = document.getElementById(id);
+            if(el) el.remove();
+        }
+        function toast(m){
+            const t=document.createElement('div');t.className='toast';t.textContent=m;
+            document.body.appendChild(t);setTimeout(()=>t.remove(),2500);
+        }
         function toggleLang(){toast('العربية هي اللغة الافتراضية')}
 
         // ============= ADMIN FUNCTIONS =============
@@ -622,6 +652,9 @@
             unsubMessages=db.collection('messages').where('userId','==',uid).orderBy('time','asc').onSnapshot(s=>{
                 const msgs=[]; s.forEach(d=>msgs.push(d.data()));
                 document.getElementById('adminChatMessages').innerHTML=msgs.map(m=>`<div style="margin:4px 0;padding:6px 10px;border-radius:12px;background:${m.from==='admin'?'var(--primary)':'var(--surface2)'};color:#fff;max-width:80%;${m.from==='admin'?'margin-left:auto':'margin-right:auto'}">${m.text}<br><small>${new Date(m.time).toLocaleTimeString()} - ${m.from==='admin'?'أنت':'المستخدم'}</small></div>`).join('');
+            }, error => {
+                console.error(error);
+                document.getElementById('adminChatMessages').innerHTML=`<p style="color:var(--danger);text-align:center">خطأ في تحميل المحادثة. تحتاج إلى إنشاء فهرس مركب (userId + time). <a href="https://console.firebase.google.com/project/surtur-5d667/firestore/indexes" target="_blank" style="color:var(--primary)">إنشاء الفهرس</a></p>`;
             });
         }
         async function adminSendMessage(){
@@ -634,17 +667,19 @@
 
         function openAddOfferModal(){
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('addOfferOverlay')"><div class="modal">
-                <i class="fa-solid fa-xmark close-modal" onclick="closeModal('addOfferOverlay')"></i>
-                <h3>إضافة عرض</h3>
-                <div class="input-group"><label>المنصة</label><select id="newOfferPlatform">${platforms.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div>
-                <div class="input-group"><label>الاسم</label><input id="newOfferName"></div>
-                <div class="input-group"><label>الوصف</label><input id="newOfferDesc"></div>
-                <div class="input-group"><label>السعر</label><input type="number" id="newOfferPrice"></div>
-                <div class="input-group"><label>السعر القديم</label><input type="number" id="newOfferOldPrice"></div>
-                <div class="input-group"><label><input type="checkbox" id="newOfferDiscount" checked> خصم</label></div>
-                <button class="btn" onclick="addOffer()">إضافة</button>
-            </div></div>`;
+            <div class="modal-overlay" id="addOfferOverlay" onclick="if(event.target===this)closeModal('addOfferOverlay')">
+                <div class="modal">
+                    <i class="fa-solid fa-xmark close-modal" onclick="closeModal('addOfferOverlay')"></i>
+                    <h3>إضافة عرض</h3>
+                    <div class="input-group"><label>المنصة</label><select id="newOfferPlatform">${platforms.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></div>
+                    <div class="input-group"><label>الاسم</label><input id="newOfferName"></div>
+                    <div class="input-group"><label>الوصف</label><input id="newOfferDesc"></div>
+                    <div class="input-group"><label>السعر</label><input type="number" id="newOfferPrice"></div>
+                    <div class="input-group"><label>السعر القديم</label><input type="number" id="newOfferOldPrice"></div>
+                    <div class="input-group"><label><input type="checkbox" id="newOfferDiscount" checked> خصم</label></div>
+                    <button class="btn" onclick="addOffer()">إضافة</button>
+                </div>
+            </div>`;
         }
         async function addOffer(){
             const o={
@@ -662,17 +697,19 @@
         function editOffer(id){
             const o=allOffers.find(x=>x.id===id); if(!o)return;
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('editOfferOverlay')"><div class="modal">
-                <i class="fa-solid fa-xmark close-modal" onclick="closeModal('editOfferOverlay')"></i>
-                <h3>تعديل عرض</h3>
-                <div class="input-group"><label>المنصة</label><select id="editOfferPlatform">${platforms.map(p=>`<option value="${p.id}" ${o.platform===p.id?'selected':''}>${p.name}</option>`).join('')}</select></div>
-                <div class="input-group"><label>الاسم</label><input id="editOfferName" value="${o.name}"></div>
-                <div class="input-group"><label>الوصف</label><input id="editOfferDesc" value="${o.desc||''}"></div>
-                <div class="input-group"><label>السعر</label><input type="number" id="editOfferPrice" value="${o.price}"></div>
-                <div class="input-group"><label>السعر القديم</label><input type="number" id="editOfferOldPrice" value="${o.oldPrice||0}"></div>
-                <div class="input-group"><label><input type="checkbox" id="editOfferDiscount" ${o.discount?'checked':''}> خصم</label></div>
-                <button class="btn" onclick="saveEditOffer('${id}')">حفظ</button>
-            </div></div>`;
+            <div class="modal-overlay" id="editOfferOverlay" onclick="if(event.target===this)closeModal('editOfferOverlay')">
+                <div class="modal">
+                    <i class="fa-solid fa-xmark close-modal" onclick="closeModal('editOfferOverlay')"></i>
+                    <h3>تعديل عرض</h3>
+                    <div class="input-group"><label>المنصة</label><select id="editOfferPlatform">${platforms.map(p=>`<option value="${p.id}" ${o.platform===p.id?'selected':''}>${p.name}</option>`).join('')}</select></div>
+                    <div class="input-group"><label>الاسم</label><input id="editOfferName" value="${o.name}"></div>
+                    <div class="input-group"><label>الوصف</label><input id="editOfferDesc" value="${o.desc||''}"></div>
+                    <div class="input-group"><label>السعر</label><input type="number" id="editOfferPrice" value="${o.price}"></div>
+                    <div class="input-group"><label>السعر القديم</label><input type="number" id="editOfferOldPrice" value="${o.oldPrice||0}"></div>
+                    <div class="input-group"><label><input type="checkbox" id="editOfferDiscount" ${o.discount?'checked':''}> خصم</label></div>
+                    <button class="btn" onclick="saveEditOffer('${id}')">حفظ</button>
+                </div>
+            </div>`;
         }
         async function saveEditOffer(id){
             await db.collection('offers').doc(id).update({
@@ -688,13 +725,15 @@
 
         function openAddAdModal(){
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('addAdOverlay')"><div class="modal">
-                <i class="fa-solid fa-xmark close-modal" onclick="closeModal('addAdOverlay')"></i>
-                <h3>إضافة إعلان</h3>
-                <div class="input-group"><label>النص</label><input id="newAdText"></div>
-                <div class="input-group"><label>ربط بعرض</label><select id="newAdOfferId"><option value="">بدون</option>${allOffers.map(o=>`<option value="${o.id}">${o.name}</option>`).join('')}</select></div>
-                <button class="btn" onclick="addAd()">إضافة</button>
-            </div></div>`;
+            <div class="modal-overlay" id="addAdOverlay" onclick="if(event.target===this)closeModal('addAdOverlay')">
+                <div class="modal">
+                    <i class="fa-solid fa-xmark close-modal" onclick="closeModal('addAdOverlay')"></i>
+                    <h3>إضافة إعلان</h3>
+                    <div class="input-group"><label>النص</label><input id="newAdText"></div>
+                    <div class="input-group"><label>ربط بعرض</label><select id="newAdOfferId"><option value="">بدون</option>${allOffers.map(o=>`<option value="${o.id}">${o.name}</option>`).join('')}</select></div>
+                    <button class="btn" onclick="addAd()">إضافة</button>
+                </div>
+            </div>`;
         }
         async function addAd(){
             const text=document.getElementById('newAdText').value.trim();
@@ -705,13 +744,15 @@
         function editAd(id){
             const a=allAds.find(x=>x.id===id); if(!a)return;
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)closeModal('editAdOverlay')"><div class="modal">
-                <i class="fa-solid fa-xmark close-modal" onclick="closeModal('editAdOverlay')"></i>
-                <h3>تعديل إعلان</h3>
-                <div class="input-group"><label>النص</label><input id="editAdText" value="${a.text}"></div>
-                <div class="input-group"><label>ربط بعرض</label><select id="editAdOfferId"><option value="">بدون</option>${allOffers.map(o=>`<option value="${o.id}" ${a.offerId==o.id?'selected':''}>${o.name}</option>`).join('')}</select></div>
-                <button class="btn" onclick="saveEditAd('${id}')">حفظ</button>
-            </div></div>`;
+            <div class="modal-overlay" id="editAdOverlay" onclick="if(event.target===this)closeModal('editAdOverlay')">
+                <div class="modal">
+                    <i class="fa-solid fa-xmark close-modal" onclick="closeModal('editAdOverlay')"></i>
+                    <h3>تعديل إعلان</h3>
+                    <div class="input-group"><label>النص</label><input id="editAdText" value="${a.text}"></div>
+                    <div class="input-group"><label>ربط بعرض</label><select id="editAdOfferId"><option value="">بدون</option>${allOffers.map(o=>`<option value="${o.id}" ${a.offerId==o.id?'selected':''}>${o.name}</option>`).join('')}</select></div>
+                    <button class="btn" onclick="saveEditAd('${id}')">حفظ</button>
+                </div>
+            </div>`;
         }
         async function saveEditAd(id){
             await db.collection('ads').doc(id).update({
@@ -721,7 +762,7 @@
         }
         async function deleteAd(id){if(confirm('حذف الإعلان؟'))await db.collection('ads').doc(id).delete()}
 
-        console.log('🚀 متجر رشق يعمل بكفاءة');
+        console.log('🚀 متجر رشق - جميع النوافذ تعمل والدعم الفوري شغال');
     </script>
 </body>
-</html>
+    </html>
