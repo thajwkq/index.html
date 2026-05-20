@@ -25,6 +25,8 @@
             --radius-sm: 16px;
             --glass: rgba(20,20,40,0.5);
             --glass-border: rgba(255,255,255,0.1);
+            --danger: #ef4444;
+            --success: #10b981;
         }
         *{margin:0;padding:0;box-sizing:border-box}
         body{
@@ -37,37 +39,65 @@
         ::-webkit-scrollbar{width:4px}
         ::-webkit-scrollbar-track{background:transparent}
         ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:10px}
-        #splashScreen{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:0.6s}
-        #splashScreen.hidden{opacity:0;pointer-events:none}
+        #splashScreen{
+            position:fixed;inset:0;z-index:9999;background:var(--bg);
+            display:flex;flex-direction:column;align-items:center;justify-content:center;
+            transition:0.6s;opacity:1;
+        }
+        #splashScreen.hidden{opacity:0;pointer-events:none;visibility:hidden}
         .splash-logo{font-size:70px;color:var(--primary);animation:splashPulse 1.5s infinite}
         @keyframes splashPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
         .splash-title{font-size:30px;font-weight:800;margin-top:16px;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         #authContainer{display:none;min-height:100vh;align-items:center;justify-content:center;padding:20px}
         #authContainer.active{display:flex}
-        .auth-card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:var(--radius);padding:35px 25px;width:100%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+        .auth-card{
+            background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);
+            border-radius:var(--radius);padding:35px 25px;width:100%;max-width:400px;
+            box-shadow:0 8px 32px rgba(0,0,0,0.3);
+        }
         .auth-card h2{font-size:26px;text-align:center;margin-bottom:6px;font-weight:800}
         .auth-card .subtitle{text-align:center;color:var(--text2);margin-bottom:20px;font-weight:500}
         .input-group{margin-bottom:16px;position:relative}
         .input-group label{font-size:13px;color:var(--text2);margin-bottom:6px;display:block;font-weight:500}
-        .input-group input, .input-group textarea, .input-group select{width:100%;padding:14px 16px;padding-right:40px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:var(--radius-sm);color:var(--text);font-size:16px;outline:none;font-family:'Tajawal',sans-serif}
+        .input-group input, .input-group textarea, .input-group select{
+            width:100%;padding:14px 16px;padding-right:40px;background:var(--surface2);
+            border:1px solid var(--glass-border);border-radius:var(--radius-sm);
+            color:var(--text);font-size:16px;outline:none;font-family:'Tajawal',sans-serif;
+        }
         .input-group input:focus, .input-group textarea:focus, .input-group select:focus{border-color:var(--primary)}
         .input-group i{position:absolute;right:14px;bottom:16px;color:var(--text2)}
-        .btn{width:100%;padding:14px;border:none;border-radius:var(--radius-sm);font-size:16px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;box-shadow:0 8px 20px rgba(139,92,246,0.4);font-family:'Tajawal',sans-serif}
+        .btn{
+            width:100%;padding:14px;border:none;border-radius:var(--radius-sm);font-size:16px;
+            font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--accent));
+            color:#fff;box-shadow:0 8px 20px rgba(139,92,246,0.4);font-family:'Tajawal',sans-serif;
+        }
         .btn-secondary{background:var(--surface2);color:var(--text);box-shadow:none;border:1px solid var(--glass-border)}
         .btn-sm{padding:8px 16px;font-size:13px;width:auto}
-        .btn-danger{background:#ef4444;color:#fff}
+        .btn-danger{background:var(--danger);color:#fff}
         .auth-switch{text-align:center;margin-top:14px;font-size:13px;color:var(--text2)}
         .auth-switch a{color:#a78bfa;cursor:pointer;font-weight:600}
         #appContainer{display:none;max-width:500px;margin:0 auto;min-height:100vh;padding-bottom:90px}
         #appContainer.active{display:block}
-        .app-header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;background:rgba(11,11,18,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border)}
+        .app-header{
+            padding:16px 20px;display:flex;justify-content:space-between;align-items:center;
+            position:sticky;top:0;z-index:100;background:rgba(11,11,18,0.85);
+            backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);
+        }
         .app-header .greeting{font-size:12px;color:var(--text2)}
         .app-header .username-display{font-size:18px;font-weight:700}
         .header-icons i{font-size:20px;color:var(--text);margin:0 8px;cursor:pointer}
-        .notif-badge{position:absolute;top:-6px;right:-10px;background:var(--accent);color:#fff;font-size:10px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+        .notif-badge{
+            position:absolute;top:-6px;right:-10px;background:var(--accent);color:#fff;
+            font-size:10px;width:18px;height:18px;border-radius:50%;display:flex;
+            align-items:center;justify-content:center;font-weight:700;
+        }
         .ad-carousel-container{margin:12px 16px;position:relative;overflow:hidden;border-radius:var(--radius)}
         .ad-track{display:flex;transition:transform 0.5s ease}
-        .ad-slide{min-width:100%;background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:var(--radius);padding:20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+        .ad-slide{
+            min-width:100%;background:var(--glass);backdrop-filter:blur(20px);
+            border:1px solid var(--glass-border);border-radius:var(--radius);
+            padding:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+        }
         .ad-tag{font-size:10px;background:var(--accent);color:#fff;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:6px}
         .ad-title{font-size:15px;font-weight:700}
         .ad-btn{background:var(--primary);color:#fff;padding:10px 18px;border-radius:30px;font-size:13px;font-weight:700;border:none;cursor:pointer}
@@ -77,28 +107,47 @@
         .section-title{font-size:18px;font-weight:700;padding:16px 20px 8px;display:flex;align-items:center;gap:8px}
         .section-title i{color:var(--primary)}
         .platform-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px;margin-bottom:12px}
-        .platform-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:16px 4px;text-align:center;cursor:pointer;transition:0.3s}
+        .platform-card{
+            background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);
+            padding:16px 4px;text-align:center;cursor:pointer;transition:0.3s;
+        }
         .platform-card:hover{background:var(--surface2);border-color:var(--primary);transform:translateY(-3px)}
         .platform-card i{font-size:28px;margin-bottom:4px}
         .platform-card .plat-name{font-size:11px;color:var(--text2);font-weight:500}
         .offers-scroll{display:flex;gap:12px;padding:0 16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
-        .offer-card{min-width:240px;background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:16px;scroll-snap-align:start;flex-shrink:0;cursor:pointer;position:relative}
+        .offer-card{
+            min-width:240px;background:var(--surface);border:1px solid var(--glass-border);
+            border-radius:var(--radius-sm);padding:16px;scroll-snap-align:start;flex-shrink:0;
+            cursor:pointer;position:relative;
+        }
         .offer-card:hover{border-color:var(--primary)}
         .offer-badge{position:absolute;top:12px;left:12px;background:var(--accent);color:#fff;font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700}
         .offer-price{font-size:22px;font-weight:800;color:var(--gold)}
-        .wallet-balance{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:16px;margin:8px 16px;display:flex;justify-content:space-between;align-items:center}
+        .wallet-balance{
+            background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);
+            padding:16px;margin:8px 16px;display:flex;justify-content:space-between;align-items:center;
+        }
         .balance-amount{font-size:20px;font-weight:800;color:var(--gold)}
         .empty-state{text-align:center;padding:30px 16px}
         .empty-state i{font-size:48px;color:var(--text3);margin-bottom:12px}
         .empty-state p{color:var(--text2);margin-bottom:16px}
-        .bottom-nav{position:fixed;bottom:0;left:0;right:0;max-width:500px;margin:0 auto;background:rgba(11,11,18,0.9);backdrop-filter:blur(20px);border-top:1px solid var(--glass-border);display:flex;justify-content:space-around;padding:12px 0 16px;z-index:200}
+        .bottom-nav{
+            position:fixed;bottom:0;left:0;right:0;max-width:500px;margin:0 auto;
+            background:rgba(11,11,18,0.9);backdrop-filter:blur(20px);
+            border-top:1px solid var(--glass-border);display:flex;justify-content:space-around;
+            padding:12px 0 16px;z-index:200;
+        }
         .nav-item{color:var(--text2);text-align:center;font-size:11px;cursor:pointer;transition:0.3s;font-weight:500}
         .nav-item i{font-size:20px;display:block;margin-bottom:2px}
         .nav-item.active{color:var(--primary)}
         .page-section{display:none}
         .page-section.active{display:block}
         .profile-header{text-align:center;padding:20px 16px 10px}
-        .profile-avatar{width:80px;height:80px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 12px;color:#fff;font-weight:700;overflow:hidden}
+        .profile-avatar{
+            width:80px;height:80px;border-radius:50%;background:var(--primary);
+            display:flex;align-items:center;justify-content:center;font-size:36px;
+            margin:0 auto 12px;color:#fff;font-weight:700;overflow:hidden;
+        }
         .profile-avatar i{font-size:36px}
         .profile-stats{display:flex;justify-content:space-around;margin:16px 0}
         .stat-item{text-align:center}
@@ -110,22 +159,55 @@
         .status-pending{background:rgba(251,191,36,0.2);color:#fbbf24}
         .status-processing{background:rgba(59,130,246,0.2);color:#3b82f6}
         .status-completed{background:rgba(16,185,129,0.2);color:#10b981}
-        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
-        .modal{background:var(--bg);border:1px solid var(--glass-border);border-radius:var(--radius);padding:24px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;position:relative}
-        .modal .close-modal{position:absolute;top:8px;left:8px;font-size:26px;color:#fff;background:rgba(0,0,0,0.4);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;z-index:10}
-        .telegram-btn{background:#2AABEE;color:#fff;padding:14px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;text-decoration:none;margin:10px 0}
-        .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:12px 24px;border-radius:30px;z-index:9999;font-weight:600;animation:toastIn 0.4s ease,toastOut 0.4s ease 2s forwards}
+        .modal-overlay{
+            position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;
+            display:flex;align-items:center;justify-content:center;padding:20px;
+        }
+        .modal{
+            background:var(--bg);border:1px solid var(--glass-border);border-radius:var(--radius);
+            padding:24px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;position:relative;
+        }
+        .modal .close-modal{
+            position:absolute;top:8px;left:8px;font-size:26px;color:#fff;
+            background:rgba(0,0,0,0.4);width:36px;height:36px;display:flex;
+            align-items:center;justify-content:center;border-radius:50%;cursor:pointer;z-index:10;
+        }
+        .telegram-btn{
+            background:#2AABEE;color:#fff;padding:14px;border-radius:var(--radius-sm);
+            display:flex;align-items:center;justify-content:center;gap:8px;
+            font-weight:700;text-decoration:none;margin:10px 0;
+        }
+        .toast{
+            position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--primary);
+            color:#fff;padding:12px 24px;border-radius:30px;z-index:9999;font-weight:600;
+            animation:toastIn 0.4s ease,toastOut 0.4s ease 2s forwards;
+        }
         @keyframes toastIn{from{opacity:0;transform:translate(-50%,-20px)}to{opacity:1;transform:translate(-50%,0)}}
         @keyframes toastOut{from{opacity:1}to{opacity:0}}
         #adminContainer{display:none;max-width:500px;margin:0 auto;min-height:100vh;padding:16px}
         #adminContainer.active{display:block}
         .admin-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:16px;margin-bottom:12px}
         .admin-card h4{margin-bottom:12px;font-weight:700}
+        .admin-table{width:100%;border-collapse:collapse;font-size:12px}
+        .admin-table th,.admin-table td{padding:8px;border-bottom:1px solid var(--glass-border);text-align:center}
+        .chat-list-item{
+            background:var(--surface2);padding:12px;border-radius:var(--radius-sm);
+            margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+        }
+        .chat-window{display:flex;flex-direction:column;height:60vh;background:var(--surface);border-radius:var(--radius);overflow:hidden}
+        .chat-header{background:var(--primary);padding:12px;display:flex;align-items:center;gap:8px;font-weight:700}
+        .chat-body{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+        .chat-footer{display:flex;gap:8px;padding:12px;border-top:1px solid var(--glass-border)}
+        .chat-footer input{flex:1;padding:10px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:20px;color:var(--text);font-family:'Tajawal',sans-serif}
     </style>
 </head>
 <body>
-    <div id="splashScreen"><div class="splash-logo"><i class="fa-solid fa-rocket"></i></div><div class="splash-title">متجر رشق</div></div>
+    <div id="splashScreen">
+        <div class="splash-logo"><i class="fa-solid fa-rocket"></i></div>
+        <div class="splash-title">متجر رشق</div>
+    </div>
 
+    <!-- Authentication Screens -->
     <div id="authContainer">
         <div class="auth-card" id="loginCard">
             <h2>تسجيل الدخول</h2>
@@ -145,6 +227,7 @@
         </div>
     </div>
 
+    <!-- Main App -->
     <div id="appContainer">
         <div class="app-header">
             <div><div class="greeting">مرحباً</div><div class="username-display" id="displayName"></div></div>
@@ -175,8 +258,8 @@
             <div class="section-title"><i class="fa-solid fa-cog"></i> الإعدادات</div>
             <div class="settings-item" onclick="toggleLang()"><div><i class="fa-solid fa-language"></i> اللغة</div><span>العربية</span></div>
             <div class="settings-item" onclick="openRatingModal()"><div><i class="fa-solid fa-star"></i> تقييم التطبيق</div><i class="fa-solid fa-chevron-left"></i></div>
-            <div class="settings-item" onclick="window.open('tg://resolve?domain=I_17g','_blank')"><div><i class="fa-brands fa-telegram"></i> قناة التطبيق الرسمية</div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
-            <div class="settings-item" onclick="window.open('tg://resolve?domain=th2f6','_blank')"><div><i class="fa-brands fa-instagram"></i> تواصل انستغرام</div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="settings-item" onclick="window.open('tg://resolve?domain=I_17g','_blank')"><div><i class="fa-brands fa-telegram"></i> قناة التطبيق</div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
+            <div class="settings-item" onclick="window.open('tg://resolve?domain=th2f6','_blank')"><div><i class="fa-brands fa-instagram"></i> تواصل المطور</div><i class="fa-solid fa-arrow-up-right-from-square"></i></div>
         </div>
         <div class="bottom-nav">
             <div class="nav-item active" data-page="pageHome" onclick="switchPage('pageHome',this)"><i class="fa-solid fa-house"></i> الرئيسية</div>
@@ -186,172 +269,356 @@
         </div>
     </div>
 
+    <!-- Admin Panel -->
     <div id="adminContainer">
         <div class="app-header"><div class="username-display">لوحة التحكم</div><button class="btn btn-sm" onclick="logout()">خروج</button></div>
-
-        <!-- Wallet Management -->
         <div class="admin-card">
             <h4><i class="fa-solid fa-wallet"></i> شحن رصيد المستخدمين</h4>
             <div class="input-group"><label>بحث بالبريد الإلكتروني</label><input id="adminSearchEmail" placeholder="user@example.com"></div>
             <div class="input-group"><label>المبلغ (د.ع)</label><input type="number" id="adminChargeAmount" placeholder="القيمة"></div>
             <button class="btn" onclick="adminChargeWallet()">شحن الرصيد</button>
         </div>
-
-        <!-- Offers & Ads similar as before but simplified for brevity -->
-        <div class="admin-card"><h4><i class="fa-solid fa-tags"></i> العروض</h4><button class="btn btn-sm" onclick="openAddOfferModal()">+ إضافة</button><table class="admin-table" id="adminOffersTable"><thead><tr><th>المنصة</th><th>الاسم</th><th>السعر</th><th>خصم</th><th></th></tr></thead><tbody></tbody></table></div>
-        <div class="admin-card"><h4><i class="fa-solid fa-rectangle-ad"></i> الإعلانات</h4><button class="btn btn-sm" onclick="openAddAdModal()">+ إضافة</button><table class="admin-table" id="adminAdsTable"><thead><tr><th>النص</th><th></th></tr></thead><tbody></tbody></table></div>
-        <div class="admin-card"><h4><i class="fa-solid fa-bell"></i> الإشعارات</h4><div id="adminNotifList"></div><button class="btn btn-sm" onclick="openAddNotificationModal()">+ إضافة</button></div>
-        <div class="admin-card"><h4><i class="fa-solid fa-receipt"></i> الطلبات</h4><div id="adminOrdersList"></div></div>
-        <div class="admin-card"><h4><i class="fa-solid fa-comments"></i> الدردشات</h4><div id="adminChatList"></div><div id="adminChatWindow" class="chat-window" style="display:none;"> ... </div></div>
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-tags"></i> العروض</h4>
+            <button class="btn btn-sm" onclick="openAddOfferModal()">+ إضافة</button>
+            <table class="admin-table" id="adminOffersTable"><thead><tr><th>المنصة</th><th>الاسم</th><th>السعر</th><th>خصم</th><th></th></tr></thead><tbody></tbody></table>
+        </div>
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-rectangle-ad"></i> الإعلانات</h4>
+            <button class="btn btn-sm" onclick="openAddAdModal()">+ إضافة</button>
+            <table class="admin-table" id="adminAdsTable"><thead><tr><th>النص</th><th></th></tr></thead><tbody></tbody></table>
+        </div>
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-bell"></i> الإشعارات</h4>
+            <div id="adminNotifList"></div>
+            <button class="btn btn-sm" onclick="openAddNotificationModal()">+ إضافة</button>
+        </div>
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-receipt"></i> الطلبات</h4>
+            <div id="adminOrdersList"></div>
+        </div>
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-comments"></i> الدردشات</h4>
+            <div id="adminChatList" style="max-height:200px;overflow-y:auto;margin-bottom:12px;">جار التحميل...</div>
+            <div id="adminChatWindow" class="chat-window" style="display:none;">
+                <div class="chat-header">
+                    <i class="fa-solid fa-arrow-right" onclick="closeAdminChat()" style="cursor:pointer;margin-left:8px;"></i>
+                    <span id="adminChatUserName"></span>
+                    <button class="btn btn-sm btn-danger" onclick="deleteCurrentChat()" style="margin-right:auto;">حذف</button>
+                </div>
+                <div class="chat-body" id="adminChatBody"></div>
+                <div class="chat-footer">
+                    <input id="adminChatInputMsg" placeholder="رسالة..."><button class="btn btn-sm" onclick="sendAdminMessage()">إرسال</button>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div id="modalContainer"></div>
+
     <script>
-        // Firebase config
-        const firebaseConfig = {
-            apiKey: "AIzaSyCBbRaAuYo6KhH7K6-byjp4SCou0DS4IXc",
-            authDomain: "surtur-5d667.firebaseapp.com",
-            projectId: "surtur-5d667",
-            storageBucket: "surtur-5d667.firebasestorage.app",
-            messagingSenderId: "360949474558",
-            appId: "1:360949474558:web:9d0d277fac1aebbf7631af"
-        };
-        firebase.initializeApp(firebaseConfig);
+        // Firebase initialization with error handling
+        try {
+            const firebaseConfig = {
+                apiKey: "AIzaSyCBbRaAuYo6KhH7K6-byjp4SCou0DS4IXc",
+                authDomain: "surtur-5d667.firebaseapp.com",
+                projectId: "surtur-5d667",
+                storageBucket: "surtur-5d667.firebasestorage.app",
+                messagingSenderId: "360949474558",
+                appId: "1:360949474558:web:9d0d277fac1aebbf7631af"
+            };
+            firebase.initializeApp(firebaseConfig);
+        } catch(e) {
+            document.body.innerHTML = '<div style="color:#fff;text-align:center;padding:50px;">⚠️ خطأ في الاتصال بقاعدة البيانات. تأكد من اتصالك بالإنترنت.</div>';
+            throw e;
+        }
         const db = firebase.firestore();
         const auth = firebase.auth();
 
         let currentUser=null,userProfile=null;
         let allOffers=[],allAds=[],allOrders=[],allNotifications=[],allRatings=[],allUsers=[];
-        let unsubMessages=null,adIndex=0,adInterval;
+        let unsubMessages=null, unsubAdminChat=null;
+        let adIndex=0,adInterval;
+        let selectedAdminChatUser=null;
 
-        // ========== AUTH ==========
-        auth.onAuthStateChanged(async user=>{
-            if(user){
-                currentUser=user;
-                const doc=await db.collection('users').doc(user.uid).get();
-                if(doc.exists){
-                    userProfile=doc.data();
+        // Hide splash after 2 seconds and show appropriate screen
+        setTimeout(() => {
+            document.getElementById('splashScreen').classList.add('hidden');
+            if (!currentUser) {
+                document.getElementById('authContainer').classList.add('active');
+                showLogin();
+            }
+        }, 2000);
+
+        auth.onAuthStateChanged(async user => {
+            if (user) {
+                currentUser = user;
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (doc.exists) {
+                    userProfile = doc.data();
                 } else {
-                    userProfile={name:user.email, email:user.email, balance:0, createdAt:Date.now()};
+                    userProfile = { name: user.displayName || user.email, email: user.email, balance: 0, createdAt: Date.now() };
                     await db.collection('users').doc(user.uid).set(userProfile);
                 }
-                if(user.email==='admin@mtger.iq') showAdminPanel(); else showApp();
-                setupListeners(); localStorage.setItem('uid',user.uid);
+                localStorage.setItem('uid', user.uid);
+                if (user.email === 'admin@mtger.iq') {
+                    showAdminPanel();
+                } else {
+                    showApp();
+                }
+                setupListeners();
             } else {
-                currentUser=null; userProfile=null; localStorage.removeItem('uid');
+                currentUser = null; userProfile = null;
+                localStorage.removeItem('uid');
+                if (unsubMessages) { unsubMessages(); unsubMessages = null; }
+                if (unsubAdminChat) { unsubAdminChat(); unsubAdminChat = null; }
                 document.getElementById('authContainer').classList.add('active');
                 document.getElementById('appContainer').classList.remove('active');
                 document.getElementById('adminContainer').classList.remove('active');
                 showLogin();
-                if(unsubMessages){unsubMessages();unsubMessages=null;}
             }
         });
 
-        function showLogin(){document.getElementById('loginCard').style.display='block';document.getElementById('registerCard').style.display='none'}
-        function showRegister(){document.getElementById('loginCard').style.display='none';document.getElementById('registerCard').style.display='block'}
-        async function handleLogin(){
-            const e=document.getElementById('loginEmail').value.trim(),p=document.getElementById('loginPass').value.trim();
-            if(!e||!p)return toast('املأ الحقول');
-            try{await auth.signInWithEmailAndPassword(e,p)}catch(err){toast('خطأ: '+err.message)}
+        function showLogin() {
+            document.getElementById('loginCard').style.display = 'block';
+            document.getElementById('registerCard').style.display = 'none';
         }
-        async function handleRegister(){
-            const n=document.getElementById('regName').value.trim(),e=document.getElementById('regEmail').value.trim(),p=document.getElementById('regPass').value.trim();
-            if(!n||!e||!p)return toast('املأ الحقول');
-            try{
-                const cred=await auth.createUserWithEmailAndPassword(e,p);
-                await cred.user.updateProfile({displayName:n});
-                await db.collection('users').doc(cred.user.uid).set({name:n,email:e,balance:0,createdAt:Date.now()});
-                toast('تم التسجيل بنجاح');
-            }catch(err){toast('خطأ: '+err.message)}
+        function showRegister() {
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('registerCard').style.display = 'block';
         }
-        async function logout(){await auth.signOut()}
 
-        function showApp(){
+        async function handleLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            if (!email || !pass) return toast('املأ جميع الحقول');
+            try {
+                await auth.signInWithEmailAndPassword(email, pass);
+            } catch (e) {
+                toast('خطأ: ' + e.message);
+            }
+        }
+
+        async function handleRegister() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+            if (!name || !email || !pass) return toast('املأ جميع الحقول');
+            try {
+                const cred = await auth.createUserWithEmailAndPassword(email, pass);
+                await cred.user.updateProfile({ displayName: name });
+                await db.collection('users').doc(cred.user.uid).set({
+                    name, email, balance: 0, createdAt: Date.now()
+                });
+                toast('تم إنشاء الحساب بنجاح');
+            } catch (e) {
+                toast('خطأ: ' + e.message);
+            }
+        }
+
+        async function logout() {
+            await auth.signOut();
+        }
+
+        function showApp() {
             document.getElementById('authContainer').classList.remove('active');
             document.getElementById('appContainer').classList.add('active');
             document.getElementById('adminContainer').classList.remove('active');
-            document.getElementById('displayName').textContent=userProfile?.name||currentUser.email;
+            document.getElementById('displayName').textContent = userProfile?.name || currentUser.email;
             updateUI();
         }
-        function showAdminPanel(){
+
+        function showAdminPanel() {
             document.getElementById('authContainer').classList.remove('active');
             document.getElementById('appContainer').classList.remove('active');
             document.getElementById('adminContainer').classList.add('active');
             renderAdminAll();
         }
 
-        function setupListeners(){
-            db.collection('offers').onSnapshot(s=>{allOffers=[];s.forEach(d=>allOffers.push({id:d.id,...d.data()})); renderOffers();});
-            db.collection('ads').onSnapshot(s=>{allAds=[];s.forEach(d=>allAds.push({id:d.id,...d.data()})); renderAdCarousel();});
-            db.collection('orders').onSnapshot(s=>{allOrders=[];s.forEach(d=>allOrders.push({id:d.id,...d.data()})); renderMyOrdersIfActive(); renderProfileIfActive();});
-            db.collection('notifications').onSnapshot(s=>{allNotifications=[];s.forEach(d=>allNotifications.push({id:d.id,...d.data()})); updateNotifBadge();});
-            db.collection('ratings').onSnapshot(s=>{allRatings=[];s.forEach(d=>allRatings.push({id:d.id,...d.data()})); renderAvgRating();});
-            db.collection('users').onSnapshot(s=>{allUsers=[];s.forEach(d=>allUsers.push({id:d.id,...d.data()})); });
-        }
-
-        // ========== UI ==========
-        function updateUI(){
-            renderPlatforms(); renderOffers(); renderAdCarousel(); renderAvgRating(); updateNotifBadge();
-            // Refresh user balance from DB
-            db.collection('users').doc(currentUser.uid).get().then(doc=>{
-                if(doc.exists) userProfile = doc.data();
+        function setupListeners() {
+            db.collection('offers').onSnapshot(snap => {
+                allOffers = []; snap.forEach(d => allOffers.push({ id: d.id, ...d.data() }));
+                if (document.getElementById('appContainer').classList.contains('active')) {
+                    renderOffers();
+                }
+                if (document.getElementById('adminContainer').classList.contains('active')) {
+                    renderAdminOffersTable();
+                }
+            });
+            db.collection('ads').onSnapshot(snap => {
+                allAds = []; snap.forEach(d => allAds.push({ id: d.id, ...d.data() }));
+                if (document.getElementById('appContainer').classList.contains('active')) {
+                    renderAdCarousel();
+                }
+                if (document.getElementById('adminContainer').classList.contains('active')) {
+                    renderAdminAdsTable();
+                }
+            });
+            db.collection('orders').onSnapshot(snap => {
+                allOrders = []; snap.forEach(d => allOrders.push({ id: d.id, ...d.data() }));
+                if (document.getElementById('appContainer').classList.contains('active')) {
+                    if (document.getElementById('pageOrders').classList.contains('active')) renderMyOrders();
+                    if (document.getElementById('pageProfile').classList.contains('active')) renderProfile();
+                }
+                if (document.getElementById('adminContainer').classList.contains('active')) renderAdminOrders();
+            });
+            db.collection('notifications').onSnapshot(snap => {
+                allNotifications = []; snap.forEach(d => allNotifications.push({ id: d.id, ...d.data() }));
+                updateNotifBadge();
+                if (document.getElementById('adminContainer').classList.contains('active')) renderAdminNotifications();
+            });
+            db.collection('ratings').onSnapshot(snap => {
+                allRatings = []; snap.forEach(d => allRatings.push({ id: d.id, ...d.data() }));
+                renderAvgRating();
+            });
+            db.collection('users').onSnapshot(snap => {
+                allUsers = []; snap.forEach(d => allUsers.push({ id: d.id, ...d.data() }));
+                if (document.getElementById('adminContainer').classList.contains('active')) updateAdminChatList();
+            });
+            db.collection('messages').onSnapshot(snap => {
+                if (document.getElementById('adminContainer').classList.contains('active')) updateAdminChatList();
             });
         }
 
-        const platforms=[{id:'instagram',name:'انستغرام',icon:'fa-brands fa-instagram',color:'#e1306c'},{id:'facebook',name:'فيسبوك',icon:'fa-brands fa-facebook',color:'#1877f2'},{id:'tiktok',name:'تيك توك',icon:'fa-brands fa-tiktok',color:'#fff'},{id:'youtube',name:'يوتيوب',icon:'fa-brands fa-youtube',color:'#ff0000'},{id:'snapchat',name:'سناب',icon:'fa-brands fa-snapchat',color:'#fffc00'},{id:'twitter',name:'تويتر',icon:'fa-brands fa-x-twitter',color:'#1da1f2'},{id:'telegram',name:'تليغرام',icon:'fa-brands fa-telegram',color:'#26a5e4'},{id:'whatsapp',name:'واتساب',icon:'fa-brands fa-whatsapp',color:'#25d366'}];
-        function renderPlatforms(){document.getElementById('platformGrid').innerHTML=platforms.map(p=>`<div class="platform-card" onclick="filterByPlatform('${p.id}')"><i class="${p.icon}" style="color:${p.color}"></i><span class="plat-name">${p.name}</span></div>`).join('')}
-        function filterByPlatform(pid){document.getElementById('offersScroll').innerHTML=allOffers.filter(o=>o.platform===pid&&o.active!==false).map(o=>createOfferCard(o)).join('')}
-        function createOfferCard(o){
-            const plat=platforms.find(p=>p.id===o.platform);
+        function updateUI() {
+            renderPlatforms();
+            renderOffers();
+            renderAdCarousel();
+            renderAvgRating();
+            updateNotifBadge();
+            // Refresh user balance from DB
+            db.collection('users').doc(currentUser.uid).get().then(doc => {
+                if (doc.exists) userProfile = doc.data();
+            });
+        }
+
+        const platforms = [
+            { id: 'instagram', name: 'انستغرام', icon: 'fa-brands fa-instagram', color: '#e1306c' },
+            { id: 'facebook', name: 'فيسبوك', icon: 'fa-brands fa-facebook', color: '#1877f2' },
+            { id: 'tiktok', name: 'تيك توك', icon: 'fa-brands fa-tiktok', color: '#fff' },
+            { id: 'youtube', name: 'يوتيوب', icon: 'fa-brands fa-youtube', color: '#ff0000' },
+            { id: 'snapchat', name: 'سناب', icon: 'fa-brands fa-snapchat', color: '#fffc00' },
+            { id: 'twitter', name: 'تويتر', icon: 'fa-brands fa-x-twitter', color: '#1da1f2' },
+            { id: 'telegram', name: 'تليغرام', icon: 'fa-brands fa-telegram', color: '#26a5e4' },
+            { id: 'whatsapp', name: 'واتساب', icon: 'fa-brands fa-whatsapp', color: '#25d366' }
+        ];
+
+        function renderPlatforms() {
+            document.getElementById('platformGrid').innerHTML = platforms.map(p =>
+                `<div class="platform-card" onclick="filterByPlatform('${p.id}')"><i class="${p.icon}" style="color:${p.color}"></i><span class="plat-name">${p.name}</span></div>`
+            ).join('');
+        }
+
+        function filterByPlatform(pid) {
+            document.getElementById('offersScroll').innerHTML = allOffers.filter(o => o.platform === pid && o.active !== false).map(o => createOfferCard(o)).join('');
+        }
+
+        function createOfferCard(o) {
+            const plat = platforms.find(p => p.id === o.platform);
             return `<div class="offer-card" onclick="openOrderModal('${o.id}')">
-                ${o.discount?'<span class="offer-badge">خصم</span>':''}
+                ${o.discount ? '<span class="offer-badge">خصم</span>' : ''}
                 <i class="${plat?.icon}" style="color:${plat?.color};font-size:24px"></i>
                 <div style="font-weight:700;margin:4px 0">${o.name}</div>
-                <div class="offer-price">${(o.price||0).toLocaleString('en')} د.ع</div>
+                <div class="offer-price">${(o.price || 0).toLocaleString('en')} د.ع</div>
             </div>`;
         }
-        function renderOffers(){document.getElementById('offersScroll').innerHTML=allOffers.filter(o=>o.active!==false).map(o=>createOfferCard(o)).join('')}
 
-        // ========== ORDER WITH WALLET ==========
-        function openOrderModal(offerId){
-            const offer=allOffers.find(o=>o.id===offerId); if(!offer)return;
-            const balance = userProfile?.balance || 0;
-            const canAfford = balance >= (offer.price||0);
-            document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
-                <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
-                <h3>تأكيد الطلب</h3>
-                <p><strong>${offer.name}</strong></p>
-                <p style="color:var(--gold);font-size:22px">${(offer.price||0).toLocaleString('en')} د.ع</p>
-                <div class="wallet-balance">
-                    <span>رصيدي الحالي</span>
-                    <span class="balance-amount">${balance.toLocaleString('en')} د.ع</span>
-                </div>
-                ${canAfford ? `
-                    <p style="color:var(--success);margin:12px 0">✅ الرصيد كافٍ لإتمام الطلب</p>
-                    <button class="btn" onclick="confirmOrder('${offer.id}')">تأكيد الطلب</button>
-                ` : `
-                    <p style="color:var(--danger);margin:12px 0">⚠️ رصيدك غير كافٍ. يرجى شحن المحفظة أولاً</p>
-                    <button class="btn btn-secondary" onclick="window.open('tg://resolve?domain=th2f6','_blank')">شحن الرصيد عبر تيليجرام</button>
-                `}
-                <button class="btn btn-secondary" style="margin-top:8px;" onclick="window.open('tg://resolve?domain=th2f6','_blank')">الدعم الفني</button>
-            </div></div>`;
+        function renderOffers() {
+            document.getElementById('offersScroll').innerHTML = allOffers.filter(o => o.active !== false).map(o => createOfferCard(o)).join('');
         }
 
-        async function confirmOrder(offerId){
-            const offer = allOffers.find(o=>o.id===offerId);
-            if(!offer) return;
+        // ---- AD CAROUSEL ----
+        function renderAdCarousel() {
+            const activeAds = allAds.filter(a => a.active !== false);
+            if (activeAds.length === 0) {
+                document.getElementById('adCarousel').style.display = 'none';
+                return;
+            }
+            document.getElementById('adCarousel').style.display = 'block';
+            document.getElementById('adTrack').innerHTML = activeAds.map((a, i) =>
+                `<div class="ad-slide"><div class="ad-text"><span class="ad-tag">🔥 عرض</span><div class="ad-title">${a.text}</div></div><button class="ad-btn" onclick="goToAdOffer('${a.offerId || ''}')">اطلب</button></div>`
+            ).join('');
+            document.getElementById('adDots').innerHTML = activeAds.map((_, i) =>
+                `<span class="ad-dot ${i === 0 ? 'active' : ''}" onclick="goToAd(${i})"></span>`
+            ).join('');
+            adIndex = 0;
+            updateCarousel();
+            clearInterval(adInterval);
+            adInterval = setInterval(() => {
+                adIndex = (adIndex + 1) % activeAds.length;
+                updateCarousel();
+            }, 3000);
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('adTrack');
+            if (track) {
+                track.style.transform = `translateX(-${adIndex * 100}%)`;
+                document.querySelectorAll('.ad-dot').forEach((d, i) => d.classList.toggle('active', i === adIndex));
+            }
+        }
+
+        function goToAd(i) {
+            adIndex = i;
+            updateCarousel();
+            clearInterval(adInterval);
+            const activeAds = allAds.filter(a => a.active !== false);
+            adInterval = setInterval(() => {
+                adIndex = (adIndex + 1) % activeAds.length;
+                updateCarousel();
+            }, 3000);
+        }
+
+        function goToAdOffer(oid) {
+            if (oid) {
+                const o = allOffers.find(x => x.id === oid);
+                if (o) openOrderModal(o.id);
+            }
+        }
+
+        // ---- ORDER WITH WALLET ----
+        function openOrderModal(offerId) {
+            const offer = allOffers.find(o => o.id === offerId);
+            if (!offer) return;
+            const balance = userProfile?.balance || 0;
+            const canAfford = balance >= (offer.price || 0);
+            document.getElementById('modalContainer').innerHTML = `
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()">
+                <div class="modal">
+                    <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
+                    <h3>تأكيد الطلب</h3>
+                    <p><strong>${offer.name}</strong></p>
+                    <p style="color:var(--gold);font-size:22px">${(offer.price || 0).toLocaleString('en')} د.ع</p>
+                    <div class="wallet-balance">
+                        <span>💰 رصيدي الحالي</span>
+                        <span class="balance-amount">${balance.toLocaleString('en')} د.ع</span>
+                    </div>
+                    ${canAfford ? `
+                        <p style="color:var(--success);margin:12px 0">✅ الرصيد كافٍ لإتمام الطلب</p>
+                        <button class="btn" onclick="confirmOrder('${offer.id}')">تأكيد الطلب</button>
+                    ` : `
+                        <p style="color:var(--danger);margin:12px 0">⚠️ رصيدك غير كافٍ. يرجى شحن المحفظة أولاً</p>
+                        <button class="btn btn-secondary" onclick="window.open('tg://resolve?domain=th2f6','_blank')">شحن الرصيد عبر تيليجرام</button>
+                    `}
+                    <button class="btn btn-secondary" style="margin-top:8px;" onclick="window.open('tg://resolve?domain=th2f6','_blank')">الدعم الفني</button>
+                </div>
+            </div>`;
+        }
+
+        async function confirmOrder(offerId) {
+            const offer = allOffers.find(o => o.id === offerId);
+            if (!offer) return;
             const userRef = db.collection('users').doc(currentUser.uid);
             try {
                 await db.runTransaction(async transaction => {
                     const userDoc = await transaction.get(userRef);
                     const balance = userDoc.data().balance || 0;
-                    if(balance < offer.price) throw new Error('رصيد غير كاف');
-                    transaction.update(userRef, {balance: firebase.firestore.FieldValue.increment(-offer.price)});
-                    // Create order
+                    if (balance < offer.price) throw new Error('رصيد غير كاف');
+                    transaction.update(userRef, { balance: firebase.firestore.FieldValue.increment(-offer.price) });
                     const orderRef = db.collection('orders').doc();
                     transaction.set(orderRef, {
                         userId: currentUser.uid,
-                        userName: userProfile?.name||currentUser.email,
+                        userName: userProfile?.name || currentUser.email,
                         offerId, offerName: offer.name, platform: offer.platform,
                         price: offer.price, link: '', notes: '',
                         status: 'pending', createdAt: Date.now()
@@ -359,27 +626,26 @@
                 });
                 document.querySelector('.modal-overlay')?.remove();
                 toast('تم الطلب بنجاح وخصم المبلغ من محفظتك');
-            } catch(e) {
-                toast('فشل الطلب: '+e.message);
+            } catch (e) {
+                toast('فشل الطلب: ' + e.message);
             }
         }
 
-        // ========== PROFILE ==========
-        function renderProfileIfActive(){if(document.getElementById('pageProfile').classList.contains('active')) renderProfile();}
-        function renderProfile(){
-            const myOrders = allOrders.filter(o=>o.userId===currentUser?.uid);
+        // ---- PROFILE ----
+        function renderProfile() {
+            const myOrders = allOrders.filter(o => o.userId === currentUser?.uid);
             const balance = userProfile?.balance || 0;
-            const totalSpent = myOrders.reduce((s,o)=>s+(o.price||0),0);
             const orderCount = myOrders.length;
-            let level='برونزي', icon='🥉', color='#cd7f32';
-            if(orderCount>30){level='ماسي'; icon='💎'; color='#b9f2ff';}
-            else if(orderCount>15){level='ذهبي'; icon='🥇'; color='#ffd700';}
-            else if(orderCount>5){level='بلاتيني'; icon='🥈'; color='#e5e4e2';}
+            const totalSpent = myOrders.reduce((s, o) => s + (o.price || 0), 0);
+            let level = 'برونزي', icon = '🥉', color = '#cd7f32';
+            if (orderCount > 30) { level = 'ماسي'; icon = '💎'; color = '#b9f2ff'; }
+            else if (orderCount > 15) { level = 'ذهبي'; icon = '🥇'; color = '#ffd700'; }
+            else if (orderCount > 5) { level = 'بلاتيني'; icon = '🥈'; color = '#e5e4e2'; }
 
             document.getElementById('profileContent').innerHTML = `
                 <div class="profile-header">
                     <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
-                    <div style="font-size:20px;font-weight:700">${userProfile?.name||currentUser.email}</div>
+                    <div style="font-size:20px;font-weight:700">${userProfile?.name || currentUser.email}</div>
                     <div style="color:var(--primary);margin-top:4px">${icon} ${level}</div>
                 </div>
                 <div class="wallet-balance" style="margin:12px 16px">
@@ -389,31 +655,34 @@
                 <button class="btn btn-sm" style="margin:0 16px 16px;width:auto" onclick="openTopUpModal()">شحن الرصيد</button>
                 <div class="section-title"><i class="fa-solid fa-clock"></i> آخر الطلبات</div>
                 <div class="order-grid">
-                    ${myOrders.slice(-6).reverse().map(o=>`<div class="order-mini-card">
-                        <p><strong>${o.offerName}</strong></p>
-                        <p>${(o.price||0).toLocaleString('en')} د.ع</p>
-                        <span class="status-badge status-${o.status}">${o.status==='pending'?'قيد الانتظار':o.status==='processing'?'جاري التنفيذ':o.status==='completed'?'مكتمل':o.status}</span>
-                    </div>`).join('')}
+                    ${myOrders.slice(-6).reverse().map(o => `
+                        <div class="order-mini-card">
+                            <p><strong>${o.offerName}</strong></p>
+                            <p>${(o.price || 0).toLocaleString('en')} د.ع</p>
+                            <span class="status-badge status-${o.status}">${o.status === 'pending' ? 'قيد الانتظار' : o.status === 'processing' ? 'جاري التنفيذ' : o.status === 'completed' ? 'مكتمل' : o.status}</span>
+                        </div>
+                    `).join('')}
                 </div>
             `;
         }
 
-        function openTopUpModal(){
+        function openTopUpModal() {
             document.getElementById('modalContainer').innerHTML = `
-            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
-                <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
-                <h3>شحن الرصيد</h3>
-                <p style="text-align:center;margin:16px 0">لشحن محفظتك وتعبئة الرصيد، يرجى التواصل مع المطور مباشرة وإرسال إثبات التحويل.</p>
-                <a href="tg://resolve?domain=th2f6" class="telegram-btn"><i class="fa-brands fa-telegram"></i> تواصل مع المطور</a>
-            </div></div>`;
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()">
+                <div class="modal">
+                    <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
+                    <h3>شحن الرصيد</h3>
+                    <p style="text-align:center;margin:16px 0">لشحن محفظتك وتعبئة الرصيد، يرجى التواصل مع المطور مباشرة وإرسال إثبات التحويل.</p>
+                    <a href="tg://resolve?domain=th2f6" class="telegram-btn"><i class="fa-brands fa-telegram"></i> تواصل مع المطور</a>
+                </div>
+            </div>`;
         }
 
-        // ========== ORDERS PAGE ==========
-        function renderMyOrdersIfActive(){if(document.getElementById('pageOrders').classList.contains('active')) renderMyOrders();}
-        function renderMyOrders(){
+        // ---- MY ORDERS PAGE ----
+        function renderMyOrders() {
             const list = document.getElementById('myOrdersList');
-            const my = allOrders.filter(o=>o.userId===currentUser?.uid).reverse();
-            if(my.length===0){
+            const my = allOrders.filter(o => o.userId === currentUser?.uid).reverse();
+            if (my.length === 0) {
                 list.innerHTML = `
                 <div class="empty-state">
                     <i class="fa-solid fa-box-open"></i>
@@ -422,38 +691,343 @@
                 </div>`;
                 return;
             }
-            list.innerHTML = my.map(o=>`
+            list.innerHTML = my.map(o => `
                 <div class="offer-card" style="margin-bottom:8px">
                     <p><strong>${o.offerName}</strong></p>
-                    <p>السعر: ${(o.price||0).toLocaleString('en')} د.ع</p>
-                    <span class="status-badge status-${o.status}">${o.status==='pending'?'قيد الانتظار':o.status==='processing'?'جاري التنفيذ':o.status==='completed'?'مكتمل':o.status}</span>
+                    <p>السعر: ${(o.price || 0).toLocaleString('en')} د.ع</p>
+                    <span class="status-badge status-${o.status}">${o.status === 'pending' ? 'قيد الانتظار' : o.status === 'processing' ? 'جاري التنفيذ' : o.status === 'completed' ? 'مكتمل' : o.status}</span>
+                    <p style="font-size:10px;color:var(--text2)">${new Date(o.createdAt).toLocaleDateString('ar-IQ')}</p>
                 </div>
             `).join('');
         }
 
-        // ========== ADMIN WALLET CHARGE ==========
-        async function adminChargeWallet(){
+        // ---- ADMIN WALLET CHARGE ----
+        async function adminChargeWallet() {
             const email = document.getElementById('adminSearchEmail').value.trim();
             const amount = parseInt(document.getElementById('adminChargeAmount').value);
-            if(!email || !amount || amount<=0) return toast('بيانات غير صحيحة');
-            const querySnap = await db.collection('users').where('email','==',email).limit(1).get();
-            if(querySnap.empty) return toast('المستخدم غير موجود');
-            const userDoc = querySnap.docs[0];
-            await userDoc.ref.update({balance: firebase.firestore.FieldValue.increment(amount)});
-            toast(`تم شحن ${amount.toLocaleString('en')} د.ع للمستخدم ${email}`);
+            if (!email || !amount || amount <= 0) return toast('بيانات غير صحيحة');
+            const snap = await db.collection('users').where('email', '==', email).limit(1).get();
+            if (snap.empty) return toast('المستخدم غير موجود');
+            const doc = snap.docs[0];
+            await doc.ref.update({ balance: firebase.firestore.FieldValue.increment(amount) });
+            toast(`تم شحن ${amount.toLocaleString('en')} د.ع إلى ${email}`);
         }
 
-        // ... بقية الدوال (إشعارات, عروض, إعلانات, محادثات) بنفس المنطق السابق مع تحديث الأرقام ...
-        function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2500)}
-        function switchPage(id,el){
-            document.querySelectorAll('.page-section').forEach(p=>p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-            if(el)el.classList.add('active');
-            if(id==='pageOrders')renderMyOrders();
-            if(id==='pageProfile')renderProfile();
+        // ---- ADMIN RENDER HELPERS ----
+        function renderAdminAll() {
+            renderAdminOffersTable();
+            renderAdminAdsTable();
+            renderAdminNotifications();
+            renderAdminOrders();
+            updateAdminChatList();
         }
-        console.log('🚀 متجر رشق - نظام محفظة متكامل');
+        function renderAdminOffersTable() {
+            document.querySelector('#adminOffersTable tbody').innerHTML = allOffers.map(o => `
+                <tr>
+                    <td>${platforms.find(p => p.id === o.platform)?.name || ''}</td>
+                    <td>${o.name}</td>
+                    <td>${(o.price || 0).toLocaleString('en')} د.ع</td>
+                    <td>${o.discount ? `${(o.oldPrice || 0).toLocaleString('en')} د.ع` : '—'}</td>
+                    <td>
+                        <button class="btn btn-sm" onclick="editOffer('${o.id}')">تعديل</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteOffer('${o.id}')">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        function renderAdminAdsTable() {
+            document.querySelector('#adminAdsTable tbody').innerHTML = allAds.map(a => `
+                <tr>
+                    <td>${a.text}</td>
+                    <td>
+                        <button class="btn btn-sm" onclick="editAd('${a.id}')">تعديل</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteAd('${a.id}')">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        function renderAdminNotifications() {
+            document.getElementById('adminNotifList').innerHTML = allNotifications.map(n => `
+                <div style="background:var(--surface2);padding:10px;border-radius:8px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
+                    <span style="flex:1">${n.text}</span>
+                    <div>
+                        <button class="btn btn-sm" onclick="editNotification('${n.id}','${n.text}')">تعديل</button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteNotification('${n.id}')">حذف</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        async function deleteNotification(id) { if (confirm('حذف الإشعار؟')) await db.collection('notifications').doc(id).delete(); }
+        function editNotification(id, oldText) {
+            const newText = prompt('تعديل النص:', oldText);
+            if (newText && newText.trim()) db.collection('notifications').doc(id).update({ text: newText.trim() });
+        }
+        function openAddNotificationModal() {
+            const text = prompt('نص الإشعار:');
+            if (text && text.trim()) db.collection('notifications').add({ text: text.trim(), time: Date.now(), readBy: [] });
+        }
+        function renderAdminOrders() {
+            document.getElementById('adminOrdersList').innerHTML = allOrders.slice().reverse().map(o => `
+                <div style="background:var(--surface2);padding:10px;border-radius:8px;margin-bottom:8px">
+                    <p><strong>${o.userName}</strong> (${o.userId?.substring(0,6)})</p>
+                    <p>${o.offerName} | ${(o.price || 0).toLocaleString('en')} د.ع</p>
+                    <select onchange="updateOrderStatus('${o.id}',this.value)">
+                        <option value="pending" ${o.status==='pending'?'selected':''}>قيد الانتظار</option>
+                        <option value="processing" ${o.status==='processing'?'selected':''}>جاري التنفيذ</option>
+                        <option value="completed" ${o.status==='completed'?'selected':''}>مكتمل</option>
+                        <option value="rejected" ${o.status==='rejected'?'selected':''}>مرفوض</option>
+                    </select>
+                    <button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">حذف</button>
+                </div>
+            `).join('');
+        }
+        async function updateOrderStatus(id, status) { await db.collection('orders').doc(id).update({ status }); }
+        async function deleteOrder(id) { if (confirm('حذف الطلب؟')) await db.collection('orders').doc(id).delete(); }
+
+        // ---- ADMIN CHAT ----
+        function updateAdminChatList() {
+            db.collection('messages').get().then(snap => {
+                const userIds = new Set();
+                snap.forEach(d => { const data = d.data(); if (data.userId) userIds.add(data.userId); });
+                const div = document.getElementById('adminChatList');
+                if (userIds.size === 0) { div.innerHTML = '<p style="color:var(--text2)">لا محادثات</p>'; return; }
+                let html = '';
+                userIds.forEach(uid => {
+                    const user = allUsers.find(u => u.id === uid);
+                    const name = user ? (user.email || user.name || 'مستخدم') : uid.substring(0, 8);
+                    html += `<div class="chat-list-item" onclick="openAdminChat('${uid}','${name}')"><span><strong>${name}</strong></span><i class="fa-solid fa-chevron-left"></i></div>`;
+                });
+                div.innerHTML = html;
+            });
+        }
+        function openAdminChat(uid, name) {
+            selectedAdminChatUser = uid;
+            document.getElementById('adminChatList').style.display = 'none';
+            document.getElementById('adminChatWindow').style.display = 'flex';
+            document.getElementById('adminChatUserName').textContent = name;
+            if (unsubAdminChat) unsubAdminChat();
+            unsubAdminChat = db.collection('messages').where('userId', '==', uid).orderBy('time', 'asc').onSnapshot(snap => {
+                const msgs = []; snap.forEach(d => msgs.push(d.data()));
+                const body = document.getElementById('adminChatBody');
+                body.innerHTML = msgs.map(m => `
+                    <div style="margin:4px 0;padding:6px 10px;border-radius:12px;background:${m.from==='admin'?'var(--primary)':'var(--surface2)'};color:#fff;max-width:80%;align-self:${m.from==='admin'?'flex-end':'flex-start'}">
+                        ${m.text}
+                        <div style="font-size:10px;opacity:0.7">${new Date(m.time).toLocaleTimeString()}</div>
+                    </div>
+                `).join('');
+                body.scrollTop = body.scrollHeight;
+            });
+        }
+        function closeAdminChat() {
+            selectedAdminChatUser = null;
+            document.getElementById('adminChatList').style.display = 'block';
+            document.getElementById('adminChatWindow').style.display = 'none';
+            if (unsubAdminChat) { unsubAdminChat(); unsubAdminChat = null; }
+        }
+        async function sendAdminMessage() {
+            if (!selectedAdminChatUser) return;
+            const text = document.getElementById('adminChatInputMsg').value.trim();
+            if (!text) return;
+            await db.collection('messages').add({ userId: selectedAdminChatUser, from: 'admin', text, time: Date.now() });
+            document.getElementById('adminChatInputMsg').value = '';
+        }
+        async function deleteCurrentChat() {
+            if (!selectedAdminChatUser) return;
+            if (!confirm('حذف كامل المحادثة؟')) return;
+            const snap = await db.collection('messages').where('userId', '==', selectedAdminChatUser).get();
+            const batch = db.batch();
+            snap.forEach(d => batch.delete(d.ref));
+            await batch.commit();
+            closeAdminChat();
+            toast('تم حذف المحادثة');
+        }
+
+        // ---- CRUD MODALS FOR OFFERS/ADS ----
+        function openAddOfferModal() {
+            document.getElementById('modalContainer').innerHTML = `
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
+                <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
+                <h3>إضافة عرض</h3>
+                <select id="newOfferPlatform">${platforms.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}</select>
+                <input id="newOfferName" placeholder="اسم العرض">
+                <input id="newOfferDesc" placeholder="وصف">
+                <input type="number" id="newOfferPrice" placeholder="السعر">
+                <input type="number" id="newOfferOldPrice" placeholder="سعر الخصم">
+                <label><input type="checkbox" id="newOfferDiscount" checked> خصم</label>
+                <button class="btn" onclick="addOffer()">إضافة</button>
+            </div></div>`;
+        }
+        async function addOffer() {
+            const name = document.getElementById('newOfferName').value.trim();
+            const price = +document.getElementById('newOfferPrice').value;
+            if (!name || !price) return toast('املأ الحقول');
+            await db.collection('offers').add({
+                platform: document.getElementById('newOfferPlatform').value,
+                name,
+                desc: document.getElementById('newOfferDesc').value.trim(),
+                price,
+                oldPrice: +document.getElementById('newOfferOldPrice').value || 0,
+                discount: document.getElementById('newOfferDiscount').checked,
+                active: true, createdAt: Date.now()
+            });
+            document.querySelector('.modal-overlay')?.remove();
+        }
+        function editOffer(id) {
+            const o = allOffers.find(x => x.id === id); if (!o) return;
+            document.getElementById('modalContainer').innerHTML = `
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
+                <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
+                <h3>تعديل عرض</h3>
+                <select id="editOfferPlatform">${platforms.map(p => `<option value="${p.id}" ${o.platform===p.id?'selected':''}>${p.name}</option>`).join('')}</select>
+                <input id="editOfferName" value="${o.name}">
+                <input id="editOfferDesc" value="${o.desc||''}">
+                <input type="number" id="editOfferPrice" value="${o.price}">
+                <input type="number" id="editOfferOldPrice" value="${o.oldPrice||0}">
+                <label><input type="checkbox" id="editOfferDiscount" ${o.discount?'checked':''}> خصم</label>
+                <button class="btn" onclick="saveEditOffer('${id}')">حفظ</button>
+            </div></div>`;
+        }
+        async function saveEditOffer(id) {
+            await db.collection('offers').doc(id).update({
+                platform: document.getElementById('editOfferPlatform').value,
+                name: document.getElementById('editOfferName').value.trim(),
+                desc: document.getElementById('editOfferDesc').value.trim(),
+                price: +document.getElementById('editOfferPrice').value,
+                oldPrice: +document.getElementById('editOfferOldPrice').value,
+                discount: document.getElementById('editOfferDiscount').checked
+            });
+            document.querySelector('.modal-overlay')?.remove();
+        }
+        async function deleteOffer(id) { if (confirm('حذف العرض؟')) await db.collection('offers').doc(id).delete(); }
+
+        function openAddAdModal() {
+            document.getElementById('modalContainer').innerHTML = `
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
+                <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
+                <h3>إضافة إعلان</h3>
+                <input id="newAdText" placeholder="نص الإعلان">
+                <button class="btn" onclick="addAd()">إضافة</button>
+            </div></div>`;
+        }
+        async function addAd() {
+            const text = document.getElementById('newAdText').value.trim();
+            if (!text) return;
+            await db.collection('ads').add({ text, active: true, createdAt: Date.now() });
+            document.querySelector('.modal-overlay')?.remove();
+        }
+        function editAd(id) {
+            const a = allAds.find(x => x.id === id); if (!a) return;
+            document.getElementById('modalContainer').innerHTML = `
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
+                <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
+                <h3>تعديل إعلان</h3>
+                <input id="editAdText" value="${a.text}">
+                <button class="btn" onclick="saveEditAd('${id}')">حفظ</button>
+            </div></div>`;
+        }
+        async function saveEditAd(id) {
+            await db.collection('ads').doc(id).update({ text: document.getElementById('editAdText').value.trim() });
+            document.querySelector('.modal-overlay')?.remove();
+        }
+        async function deleteAd(id) { if (confirm('حذف الإعلان؟')) await db.collection('ads').doc(id).delete(); }
+
+        // ---- HELPER FUNCTIONS ----
+        function switchPage(pageId, navEl) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            if (navEl) navEl.classList.add('active');
+            if (pageId === 'pageOrders') renderMyOrders();
+            if (pageId === 'pageProfile') renderProfile();
+        }
+        function toast(msg) {
+            const t = document.createElement('div');
+            t.className = 'toast'; t.textContent = msg;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 2500);
+        }
+        function toggleLang() { toast('اللغة العربية هي الافتراضية'); }
+        function updateNotifBadge() {
+            const unread = allNotifications.filter(n => !(n.readBy || []).includes(currentUser?.uid)).length;
+            const badge = document.getElementById('notifBadge');
+            if (unread) { badge.style.display = 'flex'; badge.textContent = unread; }
+            else badge.style.display = 'none';
+        }
+        function openNotifications() {
+            document.getElementById('modalContainer').innerHTML = `
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
+                <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
+                <h3>الإشعارات</h3>
+                ${allNotifications.slice().reverse().map(n => `
+                    <div style="padding:10px;margin-bottom:6px;border-radius:8px;background:${(n.readBy||[]).includes(currentUser?.uid)?'var(--surface2)':'rgba(139,92,246,0.15)'}" onclick="markNotifRead('${n.id}')">${n.text}</div>
+                `).join('')}
+            </div></div>`;
+            allNotifications.forEach(n => markNotifReadSilent(n.id));
+        }
+        async function markNotifRead(id) { await markNotifReadSilent(id); updateNotifBadge(); }
+        async function markNotifReadSilent(id) {
+            if (!currentUser) return;
+            await db.collection('notifications').doc(id).update({
+                readBy: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+            }).catch(() => {});
+        }
+        function openRatingModal() {
+            document.getElementById('modalContainer').innerHTML = `
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal" style="text-align:center">
+                <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
+                <h3>تقييم التطبيق</h3>
+                <div style="font-size:36px">${[1,2,3,4,5].map(i => `<i class="fa-regular fa-star" onclick="submitRating(${i})" style="color:var(--gold);cursor:pointer"></i>`).join('')}</div>
+            </div></div>`;
+        }
+        async function submitRating(stars) {
+            if (!currentUser) return;
+            await db.collection('ratings').doc(currentUser.uid).set({
+                userId: currentUser.uid, userName: userProfile?.name, stars, time: Date.now()
+            });
+            document.querySelector('.modal-overlay')?.remove();
+            toast('شكراً لتقييمك!');
+        }
+        function renderAvgRating() {
+            const avg = allRatings.length ? (allRatings.reduce((s, r) => s + r.stars, 0) / allRatings.length).toFixed(1) : 0;
+            document.getElementById('avgRatingDisplay').textContent = `(${avg})`;
+            document.getElementById('avgStarsDisplay').innerHTML = Array.from({ length: 5 }, (_, i) =>
+                `<i class="${i < Math.round(avg) ? 'fa-solid fa-star' : 'fa-regular fa-star'}" style="color:var(--gold)"></i>`
+            ).join('');
+        }
+        // Chat for normal users (support)
+        function openChat() {
+            if (!currentUser) return;
+            document.getElementById('modalContainer').innerHTML = `
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
+                <i class="fa-solid fa-xmark close-modal" onclick="closeChatModal()"></i>
+                <h3>الدعم الفوري</h3>
+                <div id="chatMessages" style="height:250px;overflow-y:auto;background:var(--surface2);padding:10px;border-radius:8px"></div>
+                <div style="display:flex;gap:8px;margin-top:8px"><input id="chatInput" placeholder="رسالة..."><button class="btn btn-sm" onclick="sendChatMessage()">إرسال</button></div>
+            </div></div>`;
+            if (unsubMessages) unsubMessages();
+            unsubMessages = db.collection('messages').where('userId', '==', currentUser.uid).onSnapshot(snap => {
+                const msgs = []; snap.forEach(d => msgs.push(d.data()));
+                msgs.sort((a, b) => a.time - b.time);
+                const div = document.getElementById('chatMessages');
+                if (div) div.innerHTML = msgs.map(m => `
+                    <div style="margin:4px 0;padding:6px 10px;border-radius:12px;background:${m.from==='user'?'var(--primary)':'var(--surface2)'};color:#fff;max-width:80%">
+                        ${m.text}<br><small>${new Date(m.time).toLocaleTimeString()}</small>
+                    </div>
+                `).join('');
+            });
+        }
+        function closeChatModal() {
+            if (unsubMessages) { unsubMessages(); unsubMessages = null; }
+            document.querySelector('.modal-overlay')?.remove();
+        }
+        async function sendChatMessage() {
+            const text = document.getElementById('chatInput').value.trim();
+            if (!text || !currentUser) return;
+            await db.collection('messages').add({ userId: currentUser.uid, from: 'user', text, time: Date.now() });
+            document.getElementById('chatInput').value = '';
+        }
+
+        console.log('🚀 متجر رشق - الإصدار المثالي');
     </script>
 </body>
 </html>
