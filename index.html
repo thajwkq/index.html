@@ -46,8 +46,8 @@
         .auth-card .subtitle{text-align:center;color:var(--text2);margin-bottom:20px}
         .input-group{margin-bottom:16px;position:relative}
         .input-group label{font-size:13px;color:var(--text2);margin-bottom:6px;display:block}
-        .input-group input{width:100%;padding:14px 16px;padding-right:40px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:var(--radius-sm);color:var(--text);font-size:16px;outline:none}
-        .input-group input:focus{border-color:var(--primary)}
+        .input-group input, .input-group textarea{width:100%;padding:14px 16px;padding-right:40px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:var(--radius-sm);color:var(--text);font-size:16px;outline:none;font-family:inherit}
+        .input-group input:focus, .input-group textarea:focus{border-color:var(--primary)}
         .input-group i{position:absolute;right:14px;bottom:16px;color:var(--text2)}
         .btn{width:100%;padding:14px;border:none;border-radius:var(--radius-sm);font-size:16px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;box-shadow:0 8px 20px rgba(139,92,246,0.4)}
         .btn-sm{padding:8px 16px;font-size:13px;width:auto}
@@ -87,12 +87,23 @@
         .nav-item.active{color:var(--primary)}
         .page-section{display:none}
         .page-section.active{display:block}
+        /* Profile - TikTok Style */
+        .profile-header{text-align:center;padding:20px 16px 10px}
+        .profile-avatar{width:80px;height:80px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 12px;color:#fff;font-weight:700}
+        .profile-stats{display:flex;justify-content:space-around;margin:16px 0}
+        .stat-item{text-align:center}
+        .stat-value{font-size:20px;font-weight:800}
+        .stat-label{font-size:12px;color:var(--text2)}
+        .level-badge-tiktok{display:inline-block;background:var(--surface2);padding:4px 16px;border-radius:20px;font-size:14px;font-weight:600;margin-top:4px}
+        .order-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+        .order-mini-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:12px;cursor:pointer}
+        .order-mini-card .status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-left:6px}
         .settings-item{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:16px;margin:8px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
         .settings-item:hover{border-color:var(--primary)}
         .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
         .modal{background:var(--bg);border:1px solid var(--glass-border);border-radius:var(--radius);padding:24px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto;position:relative}
-        .modal .close-modal{position:absolute;top:12px;left:12px;font-size:22px;color:#718096;cursor:pointer}
-        .modal .close-modal:hover{color:#ef4444}
+        .modal .close-modal{position:absolute;top:8px;left:8px;font-size:26px;color:#fff;background:rgba(0,0,0,0.4);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;z-index:10;transition:0.3s}
+        .modal .close-modal:hover{background:rgba(239,68,68,0.8)}
         .telegram-btn{background:#2AABEE;color:#fff;padding:14px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;text-decoration:none;margin:10px 0}
         .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;padding:12px 24px;border-radius:30px;z-index:9999;font-weight:600;animation:toastIn 0.4s ease,toastOut 0.4s ease 2s forwards}
         @keyframes toastIn{from{opacity:0;transform:translate(-50%,-20px)}to{opacity:1;transform:translate(-50%,0)}}
@@ -102,9 +113,6 @@
         .admin-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:16px;margin-bottom:12px}
         .admin-table{width:100%;border-collapse:collapse;font-size:12px}
         .admin-table th,.admin-table td{padding:8px;border-bottom:1px solid var(--glass-border);text-align:center}
-        .profile-level{background:var(--surface2);border-radius:var(--radius-sm);padding:16px;text-align:center;margin:0 16px 16px}
-        .level-badge{font-size:40px;margin-bottom:8px}
-        .level-name{font-weight:800;font-size:20px}
     </style>
 </head>
 <body>
@@ -139,9 +147,8 @@
             </div>
         </div>
 
-        <div class="ad-carousel-container" id="adCarousel"><div class="ad-track" id="adTrack"></div><div class="ad-dots" id="adDots"></div></div>
-
         <div class="page-section active" id="pageHome">
+            <div class="ad-carousel-container" id="adCarousel"><div class="ad-track" id="adTrack"></div><div class="ad-dots" id="adDots"></div></div>
             <div class="section-title"><i class="fa-solid fa-globe"></i> المنصات</div>
             <div class="platform-grid" id="platformGrid"></div>
             <div class="section-title"><i class="fa-solid fa-fire"></i> العروض</div>
@@ -154,8 +161,18 @@
             <div id="myOrdersList" style="padding:0 16px"></div>
         </div>
         <div class="page-section" id="pageProfile">
-            <div class="section-title"><i class="fa-solid fa-user"></i> ملفي الشخصي</div>
-            <div id="profileContent" style="padding:0 16px"></div>
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileInitial">👤</div>
+                <div id="profileName" style="font-size:20px;font-weight:700"></div>
+                <div id="profileLevelBadge" class="level-badge-tiktok"></div>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-item"><div class="stat-value" id="orderCountStat">0</div><div class="stat-label">الطلبات</div></div>
+                <div class="stat-item"><div class="stat-value" id="totalSpentStat">0</div><div class="stat-label">الإنفاق</div></div>
+                <div class="stat-item"><div class="stat-value" id="completedStat">0</div><div class="stat-label">مكتمل</div></div>
+            </div>
+            <div class="section-title"><i class="fa-solid fa-clock"></i> آخر الطلبات</div>
+            <div class="order-grid" id="orderGrid"></div>
         </div>
         <div class="page-section" id="pageSettings">
             <div class="section-title"><i class="fa-solid fa-cog"></i> الإعدادات</div>
@@ -250,7 +267,7 @@
 
         function setupListeners(){
             db.collection('offers').onSnapshot(s=>{allOffers=[];s.forEach(d=>allOffers.push({id:d.id,...d.data()})); renderOffers(); renderPlatforms(); if(document.getElementById('adminContainer').classList.contains('active')) renderAdminOffersTable();});
-            db.collection('ads').onSnapshot(s=>{allAds=[];s.forEach(d=>allAds.push({id:d.id,...d.data()})); renderAdCarousel(); if(document.getElementById('adminContainer').classList.contains('active')) renderAdminAdsTable();});
+            db.collection('ads').onSnapshot(s=>{allAds=[];s.forEach(d=>allAds.push({id:d.id,...d.data()})); if(document.getElementById('pageHome').classList.contains('active')) renderAdCarousel(); if(document.getElementById('adminContainer').classList.contains('active')) renderAdminAdsTable();});
             db.collection('orders').onSnapshot(s=>{allOrders=[];s.forEach(d=>allOrders.push({id:d.id,...d.data()})); if(document.getElementById('adminContainer').classList.contains('active')) renderAdminOrders(); renderMyOrdersIfActive(); renderProfileIfActive();});
             db.collection('notifications').onSnapshot(s=>{allNotifications=[];s.forEach(d=>allNotifications.push({id:d.id,...d.data()})); updateNotifBadge();});
             db.collection('ratings').onSnapshot(s=>{allRatings=[];s.forEach(d=>allRatings.push({id:d.id,...d.data()})); renderAvgRating();});
@@ -278,13 +295,13 @@
         function openOrderModal(offerId){
             const offer=allOffers.find(o=>o.id===offerId); if(!offer)return;
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" id="orderModalOverlay" onclick="if(event.target===this)closeModal('orderModalOverlay')"><div class="modal">
-                <i class="fa-solid fa-xmark close-modal" onclick="closeModal('orderModalOverlay')"></i><h3>طلب رشق</h3>
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
+                <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>طلب رشق</h3>
                 <p><strong>${offer.name}</strong></p><p style="color:var(--gold);font-size:22px">${(offer.price||0).toLocaleString()} د.ع</p>
                 <div class="input-group"><label>رابط الحساب</label><input id="orderLink"></div>
                 <div class="input-group"><label>ملاحظات</label><textarea id="orderNotes"></textarea></div>
                 <p style="margin:10px 0">طرق الدفع: زين كاش 07853607192 | ماستر 4948183217 | آسيا 07780239452</p>
-                <a href="https://t.me/I_17g" target="_blank" class="telegram-btn"><i class="fa-brands fa-telegram"></i> إرسال الإثبات عبر القناة الرسمية</a>
+                <a href="tg://resolve?domain=th2f6" class="telegram-btn"><i class="fa-brands fa-telegram"></i> إرسال الإثبات (تيليجرام)</a>
                 <button class="btn" onclick="submitOrder('${offer.id}')">تأكيد الطلب</button>
             </div></div>`;
         }
@@ -293,45 +310,41 @@
             if(!link)return toast('ادخل رابط الحساب');
             const offer=allOffers.find(o=>o.id===offerId);
             await db.collection('orders').add({userId:currentUser.uid,userName:userProfile?.name||currentUser.email,offerId,offerName:offer?.name,platform:offer?.platform,price:offer?.price,link,status:'pending',createdAt:Date.now()});
-            closeModal('orderModalOverlay'); toast('تم تقديم الطلب');
+            document.querySelector('.modal-overlay')?.remove(); toast('تم تقديم الطلب');
         }
 
-        function renderMyOrdersIfActive(){
-            if(document.getElementById('pageOrders').classList.contains('active')) renderMyOrders();
-        }
+        function renderMyOrdersIfActive(){if(document.getElementById('pageOrders').classList.contains('active')) renderMyOrders();}
         function renderMyOrders(){
             const list=document.getElementById('myOrdersList');
             const my=allOrders.filter(o=>o.userId===currentUser?.uid).reverse();
-            list.innerHTML=my.length?my.map(o=>`<div class="offer-card" style="margin-bottom:8px"><p><strong>${o.offerName}</strong></p><p>${o.link}</p><p style="color:${o.status==='pending'?'var(--gold)':'var(--primary)'}">${o.status}</p></div>`).join(''):'<p style="color:var(--text2)">لا طلبات</p>';
+            list.innerHTML=my.length?`<div class="order-grid">${my.map(o=>`<div class="order-mini-card"><p><strong>${o.offerName}</strong></p><p>${o.link}</p><p><span class="status-dot" style="background:${o.status==='pending'?'var(--gold)':'var(--primary)'}"></span>${o.status}</p></div>`).join('')}</div>`:'<p style="color:var(--text2);text-align:center">لا طلبات</p>';
         }
 
-        function renderProfileIfActive(){
-            if(document.getElementById('pageProfile').classList.contains('active')) renderProfile();
-        }
+        function renderProfileIfActive(){if(document.getElementById('pageProfile').classList.contains('active')) renderProfile();}
         function renderProfile(){
             const myOrders=allOrders.filter(o=>o.userId===currentUser?.uid);
             const totalSpent=myOrders.reduce((sum,o)=>sum+(o.price||0),0);
             const orderCount=myOrders.length;
+            const completedCount=myOrders.filter(o=>o.status==='completed').length;
             let level='برونزي', icon='🥉', color='#cd7f32';
             if(orderCount>30){level='ماسي'; icon='💎'; color='#b9f2ff';}
             else if(orderCount>15){level='ذهبي'; icon='🥇'; color='#ffd700';}
             else if(orderCount>5){level='بلاتيني'; icon='🥈'; color='#e5e4e2';}
-            document.getElementById('profileContent').innerHTML=`
-                <div class="profile-level" style="border:2px solid ${color}">
-                    <div class="level-badge">${icon}</div>
-                    <div class="level-name" style="color:${color}">${level}</div>
-                    <p style="color:var(--text2)">عدد الطلبات: ${orderCount}</p>
-                    <p style="color:var(--text2)">إجمالي الإنفاق: ${totalSpent.toLocaleString()} د.ع</p>
-                </div>
-                <div class="section-title"><i class="fa-solid fa-list"></i> آخر الطلبات</div>
-                ${myOrders.slice(-5).reverse().map(o=>`<div class="offer-card" style="margin-bottom:8px"><p><strong>${o.offerName}</strong></p><p>${o.price?.toLocaleString()} د.ع</p></div>`).join('')}
-            `;
+
+            document.getElementById('profileInitial').textContent = (userProfile?.name||currentUser.email).charAt(0).toUpperCase();
+            document.getElementById('profileName').textContent = userProfile?.name||currentUser.email;
+            document.getElementById('profileLevelBadge').innerHTML = `${icon} ${level}`;
+            document.getElementById('profileLevelBadge').style.color = color;
+            document.getElementById('orderCountStat').textContent = orderCount;
+            document.getElementById('totalSpentStat').textContent = totalSpent.toLocaleString() + ' د.ع';
+            document.getElementById('completedStat').textContent = completedCount;
+            document.getElementById('orderGrid').innerHTML = myOrders.slice(-6).reverse().map(o=>`<div class="order-mini-card"><p><strong>${o.offerName}</strong></p><p style="font-size:12px">${o.price?.toLocaleString()} د.ع</p><p><span class="status-dot" style="background:${o.status==='pending'?'var(--gold)':'var(--primary)'}"></span>${o.status}</p></div>`).join('');
         }
 
         function openChat(){
             if(!currentUser)return;
             document.getElementById('modalContainer').innerHTML=`
-            <div class="modal-overlay" id="chatModalOverlay" onclick="if(event.target===this)closeModal('chatModalOverlay')"><div class="modal">
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
                 <i class="fa-solid fa-xmark close-modal" onclick="closeChatModal()"></i><h3>الدعم الفوري</h3>
                 <div id="chatMessages" style="height:250px;overflow-y:auto;background:var(--surface2);padding:10px;border-radius:8px"></div>
                 <div style="display:flex;gap:8px;margin-top:8px"><input id="chatInput" placeholder="رسالة..."><button class="btn btn-sm" onclick="sendChatMessage()">إرسال</button></div>
@@ -344,7 +357,10 @@
                 document.getElementById('chatMessages').innerHTML=msgs.map(m=>`<div style="margin:4px 0;padding:6px 10px;border-radius:12px;background:${m.from==='user'?'var(--primary)':'var(--surface2)'};color:#fff">${m.text}<br><small>${new Date(m.time).toLocaleTimeString()}</small></div>`).join('');
             });
         }
-        function closeChatModal(){if(unsubMessages){unsubMessages();unsubMessages=null;}closeModal('chatModalOverlay')}
+        function closeChatModal(){
+            if(unsubMessages){unsubMessages();unsubMessages=null;}
+            document.querySelector('.modal-overlay')?.remove();
+        }
         async function sendChatMessage(){
             const t=document.getElementById('chatInput').value.trim(); if(!t)return;
             await db.collection('messages').add({userId:currentUser.uid,from:'user',text:t,time:Date.now()});
@@ -353,19 +369,19 @@
 
         function updateNotifBadge(){const unread=allNotifications.filter(n=>!(n.readBy||[]).includes(currentUser?.uid)).length; document.getElementById('notifBadge').style.display=unread?'flex':'none'; document.getElementById('notifBadge').textContent=unread}
         function openNotifications(){
-            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal('notifModalOverlay')"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="closeModal('notifModalOverlay')"></i><h3>الإشعارات</h3>${allNotifications.slice().reverse().map(n=>`<div style="padding:10px;margin-bottom:6px;border-radius:8px;background:${(n.readBy||[]).includes(currentUser?.uid)?'var(--surface2)':'rgba(139,92,246,0.15)'}" onclick="markNotifRead('${n.id}')">${n.text}</div>`).join('')}</div></div>`;
+            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>الإشعارات</h3>${allNotifications.slice().reverse().map(n=>`<div style="padding:10px;margin-bottom:6px;border-radius:8px;background:${(n.readBy||[]).includes(currentUser?.uid)?'var(--surface2)':'rgba(139,92,246,0.15)'}" onclick="markNotifRead('${n.id}')">${n.text}</div>`).join('')}</div></div>`;
             allNotifications.forEach(n=>markNotifReadSilent(n.id));
         }
         async function markNotifRead(id){await markNotifReadSilent(id);updateNotifBadge()}
         async function markNotifReadSilent(id){if(!currentUser)return; await db.collection('notifications').doc(id).update({readBy:firebase.firestore.FieldValue.arrayUnion(currentUser.uid)}).catch(()=>{})}
         async function sendGlobalNotification(){const t=document.getElementById('notifMessage').value.trim();if(!t)return;await db.collection('notifications').add({text:t,time:Date.now(),readBy:[]});toast('تم')}
         function openRatingModal(){
-            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal('ratingModalOverlay')"><div class="modal" style="text-align:center"><i class="fa-solid fa-xmark close-modal" onclick="closeModal('ratingModalOverlay')"></i><h3>تقييمك</h3><div style="font-size:36px">${[1,2,3,4,5].map(i=>`<i class="fa-regular fa-star" onclick="submitRating(${i})" style="color:var(--gold);cursor:pointer"></i>`).join('')}</div></div></div>`;
+            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal" style="text-align:center"><i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>تقييمك</h3><div style="font-size:36px">${[1,2,3,4,5].map(i=>`<i class="fa-regular fa-star" onclick="submitRating(${i})" style="color:var(--gold);cursor:pointer"></i>`).join('')}</div></div></div>`;
         }
-        async function submitRating(s){await db.collection('ratings').doc(currentUser.uid).set({stars:s,userName:userProfile?.name});closeModal('ratingModalOverlay')}
+        async function submitRating(s){await db.collection('ratings').doc(currentUser.uid).set({stars:s,userName:userProfile?.name}); document.querySelector('.modal-overlay')?.remove(); toast('شكراً لتقييمك!')}
         function renderAvgRating(){const avg=allRatings.length?(allRatings.reduce((s,r)=>s+r.stars,0)/allRatings.length).toFixed(1):0;document.getElementById('avgRatingDisplay').textContent=`(${avg})`;document.getElementById('avgStarsDisplay').innerHTML=Array.from({length:5},(_,i)=>`<i class="${i<Math.round(avg)?'fa-solid fa-star':'fa-regular fa-star'}" style="color:var(--gold)"></i>`).join('')}
         function openPaymentInfo(){
-            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal('payModalOverlay')"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="closeModal('payModalOverlay')"></i><h3>طرق الدفع</h3><p>زين كاش: 07853607192</p><p>ماستر: 4948183217</p><p>آسيا: 07780239452</p><a href="https://t.me/I_17g" target="_blank" class="telegram-btn"><i class="fa-brands fa-telegram"></i> إرسال إثبات</a></div></div>`;
+            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>طرق الدفع</h3><p>زين كاش: 07853607192</p><p>ماستر: 4948183217</p><p>آسيا: 07780239452</p><a href="tg://resolve?domain=th2f6" class="telegram-btn"><i class="fa-brands fa-telegram"></i> إرسال إثبات (th2f6)</a></div></div>`;
         }
         function switchPage(id,el){
             document.querySelectorAll('.page-section').forEach(p=>p.classList.remove('active'));
@@ -375,7 +391,6 @@
             if(id==='pageOrders')renderMyOrders();
             if(id==='pageProfile')renderProfile();
         }
-        function closeModal(id){document.getElementById(id)?.remove()}
         function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2500)}
         function toggleLang(){toast('العربية الافتراضية')}
 
@@ -402,26 +417,26 @@
         }
 
         function openAddOfferModal(){
-            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal('addOfferOverlay')"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="closeModal('addOfferOverlay')"></i><h3>إضافة عرض</h3><select id="newOfferPlatform">${platforms.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select><input id="newOfferName" placeholder="الاسم"><input type="number" id="newOfferPrice" placeholder="السعر"><button class="btn" onclick="addOffer()">إضافة</button></div></div>`;
+            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>إضافة عرض</h3><select id="newOfferPlatform">${platforms.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select><input id="newOfferName" placeholder="الاسم"><input type="number" id="newOfferPrice" placeholder="السعر"><button class="btn" onclick="addOffer()">إضافة</button></div></div>`;
         }
         async function addOffer(){
             const o={platform:document.getElementById('newOfferPlatform').value,name:document.getElementById('newOfferName').value.trim(),price:+document.getElementById('newOfferPrice').value,active:true};
             if(!o.name||!o.price)return toast('املأ الحقول');
-            await db.collection('offers').add(o);closeModal('addOfferOverlay');
+            await db.collection('offers').add(o); document.querySelector('.modal-overlay')?.remove();
         }
         function editOffer(id){
             const o=allOffers.find(x=>x.id===id);if(!o)return;
-            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal('editOfferOverlay')"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="closeModal('editOfferOverlay')"></i><h3>تعديل عرض</h3><select id="editOfferPlatform">${platforms.map(p=>`<option value="${p.id}" ${o.platform===p.id?'selected':''}>${p.name}</option>`).join('')}</select><input id="editOfferName" value="${o.name}"><input type="number" id="editOfferPrice" value="${o.price}"><button class="btn" onclick="saveEditOffer('${id}')">حفظ</button></div></div>`;
+            document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>تعديل عرض</h3><select id="editOfferPlatform">${platforms.map(p=>`<option value="${p.id}" ${o.platform===p.id?'selected':''}>${p.name}</option>`).join('')}</select><input id="editOfferName" value="${o.name}"><input type="number" id="editOfferPrice" value="${o.price}"><button class="btn" onclick="saveEditOffer('${id}')">حفظ</button></div></div>`;
         }
-        async function saveEditOffer(id){await db.collection('offers').doc(id).update({platform:document.getElementById('editOfferPlatform').value,name:document.getElementById('editOfferName').value.trim(),price:+document.getElementById('editOfferPrice').value});closeModal('editOfferOverlay')}
+        async function saveEditOffer(id){await db.collection('offers').doc(id).update({platform:document.getElementById('editOfferPlatform').value,name:document.getElementById('editOfferName').value.trim(),price:+document.getElementById('editOfferPrice').value}); document.querySelector('.modal-overlay')?.remove()}
         async function deleteOffer(id){if(confirm('حذف؟'))await db.collection('offers').doc(id).delete()}
 
-        function openAddAdModal(){document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal('addAdOverlay')"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="closeModal('addAdOverlay')"></i><h3>إضافة إعلان</h3><input id="newAdText" placeholder="النص"><button class="btn" onclick="addAd()">إضافة</button></div></div>`}
-        async function addAd(){const t=document.getElementById('newAdText').value.trim();if(!t)return;await db.collection('ads').add({text:t,active:true});closeModal('addAdOverlay')}
-        function editAd(id){const a=allAds.find(x=>x.id===id);if(!a)return;document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)closeModal('editAdOverlay')"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="closeModal('editAdOverlay')"></i><h3>تعديل إعلان</h3><input id="editAdText" value="${a.text}"><button class="btn" onclick="saveEditAd('${id}')">حفظ</button></div></div>`}
-        async function saveEditAd(id){await db.collection('ads').doc(id).update({text:document.getElementById('editAdText').value.trim()});closeModal('editAdOverlay')}
+        function openAddAdModal(){document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>إضافة إعلان</h3><input id="newAdText" placeholder="النص"><button class="btn" onclick="addAd()">إضافة</button></div></div>`}
+        async function addAd(){const t=document.getElementById('newAdText').value.trim();if(!t)return;await db.collection('ads').add({text:t,active:true}); document.querySelector('.modal-overlay')?.remove()}
+        function editAd(id){const a=allAds.find(x=>x.id===id);if(!a)return;document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>تعديل إعلان</h3><input id="editAdText" value="${a.text}"><button class="btn" onclick="saveEditAd('${id}')">حفظ</button></div></div>`}
+        async function saveEditAd(id){await db.collection('ads').doc(id).update({text:document.getElementById('editAdText').value.trim()}); document.querySelector('.modal-overlay')?.remove()}
         async function deleteAd(id){if(confirm('حذف؟'))await db.collection('ads').doc(id).delete()}
-        console.log('🚀 متجر رشق بالمستويات والقناة الموحدة');
+        console.log('🚀 متجر رشق - ملف TikTok وتقييم فعال');
     </script>
 </body>
 </html>
