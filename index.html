@@ -110,8 +110,20 @@
         #adminContainer{display:none;max-width:500px;margin:0 auto;min-height:100vh;padding:16px}
         #adminContainer.active{display:block}
         .admin-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:16px;margin-bottom:12px}
+        .admin-card h4{margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .admin-card h4 i{color:var(--primary)}
         .admin-table{width:100%;border-collapse:collapse;font-size:12px}
         .admin-table th,.admin-table td{padding:8px;border-bottom:1px solid var(--glass-border);text-align:center}
+        /* Chat list style */
+        .chat-list-item{background:var(--surface2);padding:12px;border-radius:var(--radius-sm);margin-bottom:8px;cursor:pointer;transition:0.3s;display:flex;justify-content:space-between;align-items:center}
+        .chat-list-item:hover{background:var(--primary);}
+        .chat-list-item .user-info{display:flex;flex-direction:column}
+        .chat-list-item .last-msg{font-size:12px;color:var(--text2)}
+        .chat-window{display:flex;flex-direction:column;height:60vh;background:var(--surface);border-radius:var(--radius);overflow:hidden}
+        .chat-header{background:var(--primary);padding:12px;display:flex;align-items:center;gap:8px;font-weight:700}
+        .chat-body{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+        .chat-footer{display:flex;gap:8px;padding:12px;border-top:1px solid var(--glass-border)}
+        .chat-footer input{flex:1;padding:10px;background:var(--surface2);border:1px solid var(--glass-border);border-radius:20px;color:var(--text)}
     </style>
 </head>
 <body>
@@ -189,13 +201,65 @@
         </div>
     </div>
 
+    <!-- ADMIN PANEL (REDESIGNED) -->
     <div id="adminContainer">
         <div class="app-header"><div class="username-display">لوحة التحكم</div><button class="btn btn-sm" onclick="logout()">خروج</button></div>
-        <div class="admin-card"><h4>العروض</h4><button class="btn btn-sm" onclick="openAddOfferModal()">+ إضافة</button><table class="admin-table" id="adminOffersTable"><thead><tr><th>المنصة</th><th>الاسم</th><th>السعر</th><th></th></tr></thead><tbody></tbody></table></div>
-        <div class="admin-card"><h4>الإعلانات</h4><button class="btn btn-sm" onclick="openAddAdModal()">+ إضافة</button><table class="admin-table" id="adminAdsTable"><thead><tr><th>النص</th><th></th></tr></thead><tbody></tbody></table></div>
-        <div class="admin-card"><h4>الطلبات</h4><div id="adminOrdersList"></div></div>
-        <div class="admin-card"><h4>دعم فوري</h4><select id="adminUserSelect" onchange="adminLoadUserChat()"><option value="">اختر مستخدم</option></select><div id="adminChatMessages" style="height:200px;overflow-y:auto;background:var(--surface2);padding:8px;border-radius:8px;margin:8px 0"></div><input id="adminChatInput" placeholder="رسالة..." style="width:100%;padding:10px;background:var(--surface2);border:1px solid var(--glass-border);color:#fff;border-radius:20px"><button class="btn btn-sm" onclick="adminSendMessage()">إرسال</button></div>
-        <div class="admin-card"><h4>إشعار</h4><textarea id="notifMessage"></textarea><button class="btn btn-sm" onclick="sendGlobalNotification()">إرسال للجميع</button></div>
+
+        <!-- Offers Card -->
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-tags"></i> إدارة العروض</h4>
+            <button class="btn btn-sm" onclick="openAddOfferModal()" style="margin-bottom:10px;">+ إضافة عرض جديد</button>
+            <div style="overflow-x:auto;">
+                <table class="admin-table" id="adminOffersTable">
+                    <thead><tr><th>المنصة</th><th>الاسم</th><th>السعر</th><th>خصم</th><th>إجراءات</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Ads Card -->
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-rectangle-ad"></i> إدارة الإعلانات</h4>
+            <button class="btn btn-sm" onclick="openAddAdModal()" style="margin-bottom:10px;">+ إضافة إعلان جديد</button>
+            <div style="overflow-x:auto;">
+                <table class="admin-table" id="adminAdsTable">
+                    <thead><tr><th>النص</th><th>العرض المرتبط</th><th>إجراءات</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Orders Card -->
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-receipt"></i> الطلبات الواردة</h4>
+            <div id="adminOrdersList"></div>
+        </div>
+
+        <!-- Messenger-like Chat System -->
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-comments"></i> الدردشات (دعم فوري)</h4>
+            <div id="adminChatList" style="max-height:200px;overflow-y:auto;margin-bottom:12px;">
+                <p style="color:var(--text2);text-align:center">جار تحميل المحادثات...</p>
+            </div>
+            <div id="adminChatWindow" class="chat-window" style="display:none;">
+                <div class="chat-header">
+                    <i class="fa-solid fa-arrow-right" onclick="closeAdminChat()" style="cursor:pointer;margin-left:8px;"></i>
+                    <span id="adminChatUserName"></span>
+                </div>
+                <div class="chat-body" id="adminChatBody"></div>
+                <div class="chat-footer">
+                    <input id="adminChatInputMsg" placeholder="اكتب رسالتك...">
+                    <button class="btn btn-sm" onclick="sendAdminMessage()">إرسال</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Card -->
+        <div class="admin-card">
+            <h4><i class="fa-solid fa-bell"></i> إرسال إشعار عام</h4>
+            <textarea id="notifMessage" placeholder="نص الإشعار..." style="width:100%;min-height:60px;background:var(--surface2);color:var(--text);border:1px solid var(--glass-border);border-radius:var(--radius-sm);padding:10px;"></textarea>
+            <button class="btn btn-sm" onclick="sendGlobalNotification()" style="margin-top:8px;">إرسال للجميع</button>
+        </div>
     </div>
 
     <div id="modalContainer"></div>
@@ -215,7 +279,9 @@
 
         let currentUser=null,userProfile=null;
         let allOffers=[],allAds=[],allOrders=[],allNotifications=[],allRatings=[],allUsers=[];
-        let unsubMessages=null,adIndex=0,adInterval;
+        let unsubMessages=null, unsubAdminChat=null;
+        let adIndex=0,adInterval;
+        let selectedAdminChatUser = null;
 
         setTimeout(()=>document.getElementById('splashScreen').classList.add('hidden'),2000);
 
@@ -235,6 +301,7 @@
                 document.getElementById('loginCard').style.display='block';
                 document.getElementById('registerCard').style.display='none';
                 if(unsubMessages){unsubMessages();unsubMessages=null;}
+                if(unsubAdminChat){unsubAdminChat();unsubAdminChat=null;}
             }
         });
 
@@ -255,11 +322,13 @@
         function showApp(){
             document.getElementById('authContainer').classList.remove('active');
             document.getElementById('appContainer').classList.add('active');
+            document.getElementById('adminContainer').classList.remove('active');
             document.getElementById('displayName').textContent=userProfile?.name||currentUser.email;
             renderPlatforms(); renderOffers(); renderAdCarousel(); renderAvgRating(); updateNotifBadge();
         }
         function showAdminPanel(){
             document.getElementById('authContainer').classList.remove('active');
+            document.getElementById('appContainer').classList.remove('active');
             document.getElementById('adminContainer').classList.add('active');
             renderAdminAll();
         }
@@ -270,7 +339,11 @@
             db.collection('orders').onSnapshot(s=>{allOrders=[];s.forEach(d=>allOrders.push({id:d.id,...d.data()})); if(document.getElementById('adminContainer').classList.contains('active')) renderAdminOrders(); renderMyOrdersIfActive(); renderProfileIfActive();});
             db.collection('notifications').onSnapshot(s=>{allNotifications=[];s.forEach(d=>allNotifications.push({id:d.id,...d.data()})); updateNotifBadge();});
             db.collection('ratings').onSnapshot(s=>{allRatings=[];s.forEach(d=>allRatings.push({id:d.id,...d.data()})); renderAvgRating();});
-            db.collection('users').onSnapshot(s=>{allUsers=[];s.forEach(d=>allUsers.push({id:d.id,...d.data()})); if(document.getElementById('adminContainer').classList.contains('active')) renderAdminUserSelect();});
+            db.collection('users').onSnapshot(s=>{allUsers=[];s.forEach(d=>allUsers.push({id:d.id,...d.data()})); if(document.getElementById('adminContainer').classList.contains('active')) updateAdminChatList();});
+            // Listen for all messages to populate chat list
+            db.collection('messages').onSnapshot(s=>{
+                if(document.getElementById('adminContainer').classList.contains('active')) updateAdminChatList();
+            });
         }
 
         const platforms=[{id:'instagram',name:'انستغرام',icon:'fa-brands fa-instagram',color:'#e1306c'},{id:'facebook',name:'فيسبوك',icon:'fa-brands fa-facebook',color:'#1877f2'},{id:'tiktok',name:'تيك توك',icon:'fa-brands fa-tiktok',color:'#fff'},{id:'youtube',name:'يوتيوب',icon:'fa-brands fa-youtube',color:'#ff0000'},{id:'snapchat',name:'سناب',icon:'fa-brands fa-snapchat',color:'#fffc00'},{id:'twitter',name:'تويتر',icon:'fa-brands fa-x-twitter',color:'#1da1f2'},{id:'telegram',name:'تليغرام',icon:'fa-brands fa-telegram',color:'#26a5e4'},{id:'whatsapp',name:'واتساب',icon:'fa-brands fa-whatsapp',color:'#25d366'}];
@@ -393,28 +466,139 @@
         function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2500)}
         function toggleLang(){toast('العربية الافتراضية')}
 
-        function renderAdminAll(){renderAdminOffersTable();renderAdminAdsTable();renderAdminOrders();renderAdminUserSelect();}
-        function renderAdminOffersTable(){document.querySelector('#adminOffersTable tbody').innerHTML=allOffers.map(o=>`<tr><td>${platforms.find(p=>p.id===o.platform)?.name}</td><td>${o.name}</td><td>${o.price}</td><td><button class="btn btn-sm" onclick="editOffer('${o.id}')">تعديل</button> <button class="btn btn-sm" onclick="deleteOffer('${o.id}')">حذف</button></td></tr>`).join('')}
-        function renderAdminAdsTable(){document.querySelector('#adminAdsTable tbody').innerHTML=allAds.map(a=>`<tr><td>${a.text}</td><td><button class="btn btn-sm" onclick="editAd('${a.id}')">تعديل</button> <button class="btn btn-sm" onclick="deleteAd('${a.id}')">حذف</button></td></tr>`).join('')}
-        function renderAdminOrders(){document.getElementById('adminOrdersList').innerHTML=allOrders.map(o=>`<div style="background:var(--surface2);padding:10px;border-radius:8px;margin-bottom:8px"><p><strong>${o.userName}</strong> - ${o.offerName}</p><p>${o.link}</p><select onchange="updateOrderStatus('${o.id}',this.value)"><option value="pending" ${o.status==='pending'?'selected':''}>قيد المراجعة</option><option value="completed" ${o.status==='completed'?'selected':''}>مكتمل</option></select></div>`).join('')}
+        // ========== ADMIN FUNCTIONS (REDESIGNED) ==========
+        function renderAdminAll(){renderAdminOffersTable();renderAdminAdsTable();renderAdminOrders();updateAdminChatList();}
+
+        function renderAdminOffersTable(){
+            document.querySelector('#adminOffersTable tbody').innerHTML = allOffers.map(o=>`
+                <tr>
+                    <td>${platforms.find(p=>p.id===o.platform)?.name||''}</td>
+                    <td>${o.name}</td>
+                    <td>${(o.price||0).toLocaleString()} د.ع</td>
+                    <td>${o.discount?'<span style="color:var(--accent)">نعم</span>':'لا'}</td>
+                    <td>
+                        <button class="btn btn-sm" onclick="editOffer('${o.id}')">تعديل</button>
+                        <button class="btn btn-sm" onclick="deleteOffer('${o.id}')">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderAdminAdsTable(){
+            document.querySelector('#adminAdsTable tbody').innerHTML = allAds.map(a=>`
+                <tr>
+                    <td>${a.text}</td>
+                    <td>${allOffers.find(o=>o.id===a.offerId)?.name||'—'}</td>
+                    <td>
+                        <button class="btn btn-sm" onclick="editAd('${a.id}')">تعديل</button>
+                        <button class="btn btn-sm" onclick="deleteAd('${a.id}')">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderAdminOrders(){
+            document.getElementById('adminOrdersList').innerHTML = allOrders.slice().reverse().map(o=>`
+                <div style="background:var(--surface2);padding:10px;border-radius:8px;margin-bottom:8px;font-size:12px">
+                    <p><strong>${o.userName}</strong> (${o.userId?.substring(0,6)})</p>
+                    <p>${o.offerName} | ${(o.price||0).toLocaleString()} د.ع</p>
+                    <p>الرابط: ${o.link}</p>
+                    <p>الحالة: 
+                        <select onchange="updateOrderStatus('${o.id}',this.value)">
+                            <option value="pending" ${o.status==='pending'?'selected':''}>قيد المراجعة</option>
+                            <option value="completed" ${o.status==='completed'?'selected':''}>مكتمل</option>
+                            <option value="rejected" ${o.status==='rejected'?'selected':''}>مرفوض</option>
+                        </select>
+                    </p>
+                    <button class="btn btn-sm" onclick="deleteOrder('${o.id}')">حذف الطلب</button>
+                </div>
+            `).join('');
+        }
+
         async function updateOrderStatus(id,s){await db.collection('orders').doc(id).update({status:s})}
-        function renderAdminUserSelect(){document.getElementById('adminUserSelect').innerHTML='<option value="">اختر مستخدم</option>'+allUsers.map(u=>`<option value="${u.id}">${u.email||u.phoneNumber}</option>`).join('')}
+        async function deleteOrder(id){if(confirm('حذف الطلب؟'))await db.collection('orders').doc(id).delete()}
 
-        function adminLoadUserChat(){
-            const uid=document.getElementById('adminUserSelect').value;
-            if(!uid)return;
-            if(unsubMessages)unsubMessages();
-            unsubMessages=db.collection('messages').where('userId','==',uid)
-            .onSnapshot(s=>{const msgs=[];s.forEach(d=>msgs.push(d.data()));msgs.sort((a,b)=>a.time-b.time);document.getElementById('adminChatMessages').innerHTML=msgs.map(m=>`<div style="margin:4px 0;padding:6px 10px;border-radius:12px;background:${m.from==='admin'?'var(--primary)':'var(--surface2)'};color:#fff">${m.text}<br><small>${new Date(m.time).toLocaleTimeString()} - ${m.from==='admin'?'أنت':'المستخدم'}</small></div>`).join('')});
-        }
-        async function adminSendMessage(){
-            const uid=document.getElementById('adminUserSelect').value;
-            const t=document.getElementById('adminChatInput').value.trim();
-            if(!uid||!t)return;
-            await db.collection('messages').add({userId:uid,from:'admin',text:t,time:Date.now()});
-            document.getElementById('adminChatInput').value='';
+        // ---- Multi-chat system (like Messenger) ----
+        function updateAdminChatList(){
+            // Get unique user IDs who have messages
+            db.collection('messages').get().then(snap=>{
+                const userIds = new Set();
+                snap.forEach(doc=>{
+                    const data = doc.data();
+                    if(data.userId) userIds.add(data.userId);
+                });
+                const listDiv = document.getElementById('adminChatList');
+                if(!listDiv) return;
+                if(userIds.size === 0){
+                    listDiv.innerHTML = '<p style="color:var(--text2);text-align:center">لا توجد محادثات بعد</p>';
+                    return;
+                }
+                let html = '';
+                userIds.forEach(uid=>{
+                    const user = allUsers.find(u=>u.id===uid);
+                    const userName = user ? (user.email || user.name || 'مستخدم') : uid.substring(0,8);
+                    html += `
+                        <div class="chat-list-item" onclick="openAdminChat('${uid}','${userName}')">
+                            <div class="user-info">
+                                <span style="font-weight:700">${userName}</span>
+                                <span class="last-msg">${uid}</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </div>
+                    `;
+                });
+                listDiv.innerHTML = html;
+            }).catch(err=>console.error(err));
         }
 
+        function openAdminChat(uid, userName){
+            selectedAdminChatUser = uid;
+            document.getElementById('adminChatList').style.display = 'none';
+            document.getElementById('adminChatWindow').style.display = 'flex';
+            document.getElementById('adminChatUserName').textContent = userName;
+            if(unsubAdminChat) unsubAdminChat();
+            unsubAdminChat = db.collection('messages')
+                .where('userId','==',uid)
+                .orderBy('time','asc')
+                .onSnapshot(snap=>{
+                    const msgs = [];
+                    snap.forEach(doc=>msgs.push(doc.data()));
+                    const body = document.getElementById('adminChatBody');
+                    if(!body) return;
+                    body.innerHTML = msgs.map(m=>`
+                        <div style="margin:4px 0;padding:6px 10px;border-radius:12px;background:${m.from==='admin'?'var(--primary)':'var(--surface2)'};color:#fff;max-width:80%;align-self:${m.from==='admin'?'flex-end':'flex-start'}">
+                            ${m.text}
+                            <div style="font-size:10px;opacity:0.7">${new Date(m.time).toLocaleTimeString()}</div>
+                        </div>
+                    `).join('');
+                    body.scrollTop = body.scrollHeight;
+                }, err=>{
+                    console.error(err);
+                    document.getElementById('adminChatBody').innerHTML = '<p style="color:var(--danger)">خطأ في التحميل. قد تحتاج لإنشاء فهرس مركب.</p>';
+                });
+        }
+
+        function closeAdminChat(){
+            selectedAdminChatUser = null;
+            document.getElementById('adminChatList').style.display = 'block';
+            document.getElementById('adminChatWindow').style.display = 'none';
+            if(unsubAdminChat){ unsubAdminChat(); unsubAdminChat = null; }
+        }
+
+        async function sendAdminMessage(){
+            if(!selectedAdminChatUser) return;
+            const txt = document.getElementById('adminChatInputMsg').value.trim();
+            if(!txt) return;
+            await db.collection('messages').add({
+                userId: selectedAdminChatUser,
+                from: 'admin',
+                text: txt,
+                time: Date.now()
+            });
+            document.getElementById('adminChatInputMsg').value = '';
+        }
+
+        // Offer/Ad CRUD (same as before, but with proper modals)
         function openAddOfferModal(){
             document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>إضافة عرض</h3><select id="newOfferPlatform">${platforms.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select><input id="newOfferName" placeholder="الاسم"><input type="number" id="newOfferPrice" placeholder="السعر"><button class="btn" onclick="addOffer()">إضافة</button></div></div>`;
         }
@@ -435,7 +619,8 @@
         function editAd(id){const a=allAds.find(x=>x.id===id);if(!a)return;document.getElementById('modalContainer').innerHTML=`<div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal"><i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i><h3>تعديل إعلان</h3><input id="editAdText" value="${a.text}"><button class="btn" onclick="saveEditAd('${id}')">حفظ</button></div></div>`}
         async function saveEditAd(id){await db.collection('ads').doc(id).update({text:document.getElementById('editAdText').value.trim()}); document.querySelector('.modal-overlay')?.remove()}
         async function deleteAd(id){if(confirm('حذف؟'))await db.collection('ads').doc(id).delete()}
-        console.log('🚀 متجر رشق - قناة تفتح مباشرة في التطبيق');
+
+        console.log('🚀 لوحة تحكم متطورة مع محادثات متعددة');
     </script>
 </body>
 </html>
