@@ -416,6 +416,7 @@
             }catch(e){toast('فشل: '+e.message);}
         }
 
+        // ===== PROFILE SCREEN =====
         function renderProfile(){
             const balance=userProfile?.balance||0;
             const myOrders=allOrders.filter(o=>o.userId===currentUser?.uid);
@@ -423,10 +424,7 @@
             const totalSpent=myOrders.reduce((s,o)=>s+(o.price||0),0);
             const username=userProfile?.username||currentUser.email.split('@')[0];
             const photoURL=userProfile?.photoURL||null;
-            let level='برونزي',icon='🥉',color='#cd7f32';
-            if(orderCount>30){level='ماسي';icon='💎';color='#b9f2ff';}
-            else if(orderCount>15){level='ذهبي';icon='🥇';color='#ffd700';}
-            else if(orderCount>5){level='بلاتيني';icon='🥈';color='#e5e4e2';}
+
             document.getElementById('profileContent').innerHTML=`
             <div class="profile-screen">
                 <div class="profile-avatar-section">
@@ -435,7 +433,6 @@
                     </div>
                     <div class="profile-name">${userProfile?.name||'مستخدم'}</div>
                     <div class="profile-username">@${username}</div>
-                    <div style="margin-top:4px;color:${color}">${icon} ${level}</div>
                 </div>
                 <div class="stats-row">
                     <div class="stat-item"><div class="stat-value">${balance.toLocaleString('en')} د.ع</div><div class="stat-label">الرصيد</div></div>
@@ -443,7 +440,7 @@
                     <div class="stat-item"><div class="stat-value">${totalSpent.toLocaleString('en')} د.ع</div><div class="stat-label">الإنفاق</div></div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-secondary" onclick="toast('قريباً')">تعديل الحساب</button>
+                    <button class="btn btn-secondary" onclick="openEditProfileModal()">تعديل الحساب</button>
                     <button class="btn" onclick="openTopUpModal()">شحن الرصيد 💰</button>
                 </div>
                 <div class="profile-menu">
@@ -454,6 +451,44 @@
                 </div>
             </div>`;
         }
+
+        function openEditProfileModal(){
+            const currentName = userProfile?.name || '';
+            const currentUsername = userProfile?.username || '';
+            document.getElementById('modalContainer').innerHTML = `
+            <div class="modal-overlay" onclick="if(event.target===this)this.remove()">
+                <div class="modal">
+                    <i class="fa-solid fa-xmark close-modal" onclick="this.closest('.modal-overlay').remove()"></i>
+                    <h3>تعديل الحساب</h3>
+                    <div class="input-group">
+                        <label>الاسم</label>
+                        <input id="editName" value="${currentName}">
+                    </div>
+                    <div class="input-group">
+                        <label>اسم المستخدم @</label>
+                        <input id="editUsername" value="${currentUsername}">
+                    </div>
+                    <button class="btn" onclick="saveProfileChanges()">حفظ التغييرات</button>
+                </div>
+            </div>`;
+        }
+
+        async function saveProfileChanges(){
+            const newName = document.getElementById('editName').value.trim();
+            const newUsername = document.getElementById('editUsername').value.trim();
+            if(!newName) return toast('يرجى إدخال الاسم');
+            await db.collection('users').doc(currentUser.uid).update({
+                name: newName,
+                username: newUsername
+            });
+            userProfile.name = newName;
+            userProfile.username = newUsername;
+            document.querySelector('.modal-overlay')?.remove();
+            renderProfile();
+            document.getElementById('displayName').textContent = newName;
+            toast('تم تحديث الملف الشخصي');
+        }
+
         function openTopUpModal(){
             document.getElementById('modalContainer').innerHTML=`
             <div class="modal-overlay" onclick="if(event.target===this)this.remove()"><div class="modal">
@@ -613,7 +648,7 @@
         async function saveEditAd(id){await db.collection('ads').doc(id).update({text:document.getElementById('editAdText').value.trim()});document.querySelector('.modal-overlay')?.remove();}
         async function deleteAd(id){if(confirm('حذف؟'))await db.collection('ads').doc(id).delete();}
 
-        console.log('🚀 متجر رشق - كامل الميزات');
+        console.log('🚀 متجر رشق - الملف الشخصي بتصميم TikTok');
     </script>
 </body>
-    </html>
+</html>
